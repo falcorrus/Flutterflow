@@ -1,4 +1,4 @@
-package com.flutterflow.tutorial
+package com.flutterflow.mywayeu
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

@@ -1,6 +1,6 @@
 {
-    "name": "tutorial",
-    "short_name": "tutorial",
+    "name": "mywayeu",
+    "short_name": "mywayeu",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
