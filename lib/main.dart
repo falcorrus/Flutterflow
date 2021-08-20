@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'auth/firebase_user_provider.dart';
+import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:mywayeu/sign_up/sign_up_widget.dart';
-import 'package:mywayeu/orders2/orders2_widget.dart';
+import 'package:mywayeu/cart/cart_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() async {
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
               ),
             )
           : currentUser.loggedIn
-              ? Orders2Widget()
+              ? CartWidget()
               : SignUpWidget(),
     );
   }

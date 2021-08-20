@@ -10,10 +10,6 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   static Serializer<UsersRecord> get serializer => _$usersRecordSerializer;
 
   @nullable
-  @BuiltValueField(wireName: 'Name')
-  String get name;
-
-  @nullable
   @BuiltValueField(wireName: 'Phone')
   BuiltList<int> get phone;
 
@@ -40,17 +36,28 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   String get phoneNumber;
 
   @nullable
+  String get password2;
+
+  @nullable
+  String get name;
+
+  @nullable
+  String get password;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
   static void _initializeBuilder(UsersRecordBuilder builder) => builder
-    ..name = ''
     ..phone = ListBuilder()
     ..email = ''
     ..displayName = ''
     ..photoUrl = ''
     ..uid = ''
-    ..phoneNumber = '';
+    ..phoneNumber = ''
+    ..password2 = ''
+    ..name = ''
+    ..password = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Users');
@@ -70,22 +77,26 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
 }
 
 Map<String, dynamic> createUsersRecordData({
-  String name,
   String email,
   String displayName,
   String photoUrl,
   String uid,
   DateTime createdTime,
   String phoneNumber,
+  String password2,
+  String name,
+  String password,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
         UsersRecord((u) => u
-          ..name = name
           ..phone = null
           ..email = email
           ..displayName = displayName
           ..photoUrl = photoUrl
           ..uid = uid
           ..createdTime = createdTime
-          ..phoneNumber = phoneNumber));
+          ..phoneNumber = phoneNumber
+          ..password2 = password2
+          ..name = name
+          ..password = password));
