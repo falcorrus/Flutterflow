@@ -1,11 +1,12 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
-import '../cart/cart_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../sign2/sign2_widget.dart';
 import '../sign_up/sign_up_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,23 +20,15 @@ class SignUp1Widget extends StatefulWidget {
 }
 
 class _SignUp1WidgetState extends State<SignUp1Widget> {
-  TextEditingController emailAddressController;
   TextEditingController fullNameController;
-  TextEditingController passwordController;
-  bool passwordVisibility;
-  TextEditingController password2Controller;
-  bool password2Visibility;
+  TextEditingController phoneFieldController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    emailAddressController = TextEditingController();
     fullNameController = TextEditingController();
-    passwordController = TextEditingController();
-    passwordVisibility = false;
-    password2Controller = TextEditingController();
-    password2Visibility = false;
+    phoneFieldController = TextEditingController();
   }
 
   @override
@@ -85,6 +78,7 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
+                        flex: 1,
                         child: StreamBuilder<List<UsersRecord>>(
                           stream: queryUsersRecord(
                             singleRecord: true,
@@ -191,7 +185,7 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                                 ),
                               );
                             }
-                            List<UsersRecord> emailAddressUsersRecordList =
+                            List<UsersRecord> phoneFieldUsersRecordList =
                                 snapshot.data;
                             // Customize what your widget looks like with no query results.
                             if (snapshot.data.isEmpty) {
@@ -202,20 +196,20 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                                 ),
                               );
                             }
-                            final emailAddressUsersRecord =
-                                emailAddressUsersRecordList.first;
+                            final phoneFieldUsersRecord =
+                                phoneFieldUsersRecordList.first;
                             return TextFormField(
-                              controller: emailAddressController,
+                              controller: phoneFieldController,
                               obscureText: false,
                               decoration: InputDecoration(
-                                labelText: 'Email Address',
+                                labelText: 'Phone number',
                                 labelStyle: FlutterFlowTheme.bodyText1.override(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF95A1AC),
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
-                                hintText: 'Enter your email here...',
+                                hintText: 'Enter your name here...',
                                 hintStyle: FlutterFlowTheme.bodyText1.override(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF95A1AC),
@@ -247,7 +241,6 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                               ),
-                              keyboardType: TextInputType.emailAddress,
                             );
                           },
                         ),
@@ -260,100 +253,7 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: StreamBuilder<List<UsersRecord>>(
-                          stream: queryUsersRecord(
-                            singleRecord: true,
-                          ),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 50,
-                                  height: 50,
-                                  child: SpinKitChasingDots(
-                                    color: Color(0xFF561F51),
-                                    size: 50,
-                                  ),
-                                ),
-                              );
-                            }
-                            List<UsersRecord> passwordUsersRecordList =
-                                snapshot.data;
-                            // Customize what your widget looks like with no query results.
-                            if (snapshot.data.isEmpty) {
-                              return Container(
-                                height: 100,
-                                child: Center(
-                                  child: Text('No results.'),
-                                ),
-                              );
-                            }
-                            final passwordUsersRecord =
-                                passwordUsersRecordList.first;
-                            return TextFormField(
-                              controller: passwordController,
-                              obscureText: !passwordVisibility,
-                              decoration: InputDecoration(
-                                labelText: 'Password',
-                                labelStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF95A1AC),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                hintText: 'Enter your email here...',
-                                hintStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF95A1AC),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFDBE2E7),
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFDBE2E7),
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(16, 24, 24, 24),
-                                suffixIcon: InkWell(
-                                  onTap: () => setState(
-                                    () => passwordVisibility =
-                                        !passwordVisibility,
-                                  ),
-                                  child: Icon(
-                                    passwordVisibility
-                                        ? Icons.visibility_outlined
-                                        : Icons.visibility_off_outlined,
-                                    color: Color(0xFF95A1AC),
-                                    size: 26,
-                                  ),
-                                ),
-                              ),
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Lexend Deca',
-                                color: Color(0xFF2B343A),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
+                    children: [],
                   ),
                 ),
                 Padding(
@@ -361,100 +261,7 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: StreamBuilder<List<UsersRecord>>(
-                          stream: queryUsersRecord(
-                            singleRecord: true,
-                          ),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 50,
-                                  height: 50,
-                                  child: SpinKitChasingDots(
-                                    color: Color(0xFF561F51),
-                                    size: 50,
-                                  ),
-                                ),
-                              );
-                            }
-                            List<UsersRecord> password2UsersRecordList =
-                                snapshot.data;
-                            // Customize what your widget looks like with no query results.
-                            if (snapshot.data.isEmpty) {
-                              return Container(
-                                height: 100,
-                                child: Center(
-                                  child: Text('No results.'),
-                                ),
-                              );
-                            }
-                            final password2UsersRecord =
-                                password2UsersRecordList.first;
-                            return TextFormField(
-                              controller: password2Controller,
-                              obscureText: !password2Visibility,
-                              decoration: InputDecoration(
-                                labelText: 'Confirm Password',
-                                labelStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF95A1AC),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                hintText: 'Enter your email here...',
-                                hintStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF95A1AC),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFDBE2E7),
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFDBE2E7),
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(16, 24, 24, 24),
-                                suffixIcon: InkWell(
-                                  onTap: () => setState(
-                                    () => password2Visibility =
-                                        !password2Visibility,
-                                  ),
-                                  child: Icon(
-                                    password2Visibility
-                                        ? Icons.visibility_outlined
-                                        : Icons.visibility_off_outlined,
-                                    color: Color(0xFF95A1AC),
-                                    size: 26,
-                                  ),
-                                ),
-                              ),
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Lexend Deca',
-                                color: Color(0xFF2B343A),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
+                    children: [],
                   ),
                 ),
                 Padding(
@@ -466,10 +273,9 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                       Expanded(
                         child: Align(
                           alignment: Alignment(0, 0),
-                          child: StreamBuilder<List<UsersRecord>>(
-                            stream: queryUsersRecord(
-                              singleRecord: true,
-                            ),
+                          child: StreamBuilder<UsersRecord>(
+                            stream:
+                                UsersRecord.getDocument(currentUserReference),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
                               if (!snapshot.hasData) {
@@ -484,63 +290,16 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                                   ),
                                 );
                               }
-                              List<UsersRecord> buttonUsersRecordList =
-                                  snapshot.data;
-                              // Customize what your widget looks like with no query results.
-                              if (snapshot.data.isEmpty) {
-                                return Container(
-                                  height: 100,
-                                  child: Center(
-                                    child: Text('No results.'),
-                                  ),
-                                );
-                              }
-                              final buttonUsersRecord =
-                                  buttonUsersRecordList.first;
+                              final updateButtonUsersRecord = snapshot.data;
                               return FFButtonWidget(
                                 onPressed: () async {
-                                  if (passwordController.text !=
-                                      password2Controller.text) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "Passwords don't match!",
-                                        ),
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  final user = await createAccountWithEmail(
-                                    context,
-                                    emailAddressController.text,
-                                    passwordController.text,
+                                  final usersUpdateData = createUsersRecordData(
+                                    displayName: fullNameController.text,
                                   );
-                                  if (user == null) {
-                                    return;
-                                  }
-
-                                  final usersCreateData = createUsersRecordData(
-                                    name: fullNameController.text,
-                                    password: passwordController.text,
-                                  );
-                                  await UsersRecord.collection
-                                      .doc(user.uid)
-                                      .update(usersCreateData);
-
-                                  await Navigator.pushAndRemoveUntil(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      duration: Duration(milliseconds: 300),
-                                      reverseDuration:
-                                          Duration(milliseconds: 300),
-                                      child: CartWidget(),
-                                    ),
-                                    (r) => false,
-                                  );
+                                  await currentUserReference
+                                      .update(usersUpdateData);
                                 },
-                                text: 'Create Account',
+                                text: 'Update Account',
                                 options: FFButtonOptions(
                                   width: 210,
                                   height: 60,
@@ -548,9 +307,9 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                                   textStyle:
                                       FlutterFlowTheme.subtitle1.override(
                                     fontFamily: 'Lexend Deca',
-                                    color: Colors.white,
+                                    color: Color(0xB4FFFFFF),
                                     fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.normal,
                                   ),
                                   elevation: 3,
                                   borderSide: BorderSide(
@@ -606,7 +365,7 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                                 type: PageTransitionType.fade,
                                 duration: Duration(milliseconds: 300),
                                 reverseDuration: Duration(milliseconds: 300),
-                                child: CartWidget(),
+                                child: Sign2Widget(),
                               ),
                               (r) => false,
                             );
@@ -622,8 +381,7 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                               padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
                               child: InkWell(
                                 onTap: () async {
-                                  final user =
-                                      await signInWithFacebook(context);
+                                  final user = await signInAnonymously(context);
                                   if (user == null) {
                                     return;
                                   }
@@ -634,7 +392,7 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                                       duration: Duration(milliseconds: 300),
                                       reverseDuration:
                                           Duration(milliseconds: 300),
-                                      child: CartWidget(),
+                                      child: Sign2Widget(),
                                     ),
                                     (r) => false,
                                   );
@@ -669,7 +427,7 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                                 type: PageTransitionType.fade,
                                 duration: Duration(milliseconds: 300),
                                 reverseDuration: Duration(milliseconds: 300),
-                                child: CartWidget(),
+                                child: Sign2Widget(),
                               ),
                               (r) => false,
                             );
@@ -682,35 +440,69 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
-                              child: InkWell(
-                                onTap: () async {
-                                  final user = await signInWithGoogle(context);
-                                  if (user == null) {
-                                    return;
+                              child: StreamBuilder<List<UsersRecord>>(
+                                stream: queryUsersRecord(
+                                  singleRecord: true,
+                                ),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: SpinKitChasingDots(
+                                          color: Color(0xFF561F51),
+                                          size: 50,
+                                        ),
+                                      ),
+                                    );
                                   }
-                                  await Navigator.pushAndRemoveUntil(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      duration: Duration(milliseconds: 300),
-                                      reverseDuration:
-                                          Duration(milliseconds: 300),
-                                      child: CartWidget(),
+                                  List<UsersRecord> circleImageUsersRecordList =
+                                      snapshot.data;
+                                  // Customize what your widget looks like with no query results.
+                                  if (snapshot.data.isEmpty) {
+                                    return Container(
+                                      height: 100,
+                                      child: Center(
+                                        child: Text('No results.'),
+                                      ),
+                                    );
+                                  }
+                                  final circleImageUsersRecord =
+                                      circleImageUsersRecordList.first;
+                                  return InkWell(
+                                    onTap: () async {
+                                      final user =
+                                          await signInWithGoogle(context);
+                                      if (user == null) {
+                                        return;
+                                      }
+                                      await Navigator.pushAndRemoveUntil(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.fade,
+                                          duration: Duration(milliseconds: 300),
+                                          reverseDuration:
+                                              Duration(milliseconds: 300),
+                                          child: Sign2Widget(),
+                                        ),
+                                        (r) => false,
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Image.asset(
+                                        'assets/images/social_GoogleWhite.svg',
+                                      ),
                                     ),
-                                    (r) => false,
                                   );
                                 },
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Image.asset(
-                                    'assets/images/social_GoogleWhite.svg',
-                                  ),
-                                ),
                               ),
                             ),
                           ),
@@ -728,7 +520,7 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                               type: PageTransitionType.fade,
                               duration: Duration(milliseconds: 300),
                               reverseDuration: Duration(milliseconds: 300),
-                              child: CartWidget(),
+                              child: Sign2Widget(),
                             ),
                             (r) => false,
                           );
@@ -743,21 +535,11 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                             padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
                             child: InkWell(
                               onTap: () async {
-                                final user = await signInWithApple(context);
-                                if (user == null) {
-                                  return;
-                                }
-                                await Navigator.pushAndRemoveUntil(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    duration: Duration(milliseconds: 300),
-                                    reverseDuration:
-                                        Duration(milliseconds: 300),
-                                    child: CartWidget(),
-                                  ),
-                                  (r) => false,
+                                final usersUpdateData = createUsersRecordData(
+                                  displayName: fullNameController.text,
                                 );
+                                await currentUserReference
+                                    .update(usersUpdateData);
                               },
                               child: Container(
                                 width: 50,
@@ -773,6 +555,67 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                             ),
                           ),
                         ),
+                      ),
+                      StreamBuilder<List<UsersRecord>>(
+                        stream: queryUsersRecord(
+                          singleRecord: true,
+                        ),
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: SpinKitChasingDots(
+                                  color: Color(0xFF561F51),
+                                  size: 50,
+                                ),
+                              ),
+                            );
+                          }
+                          List<UsersRecord> cardUsersRecordList = snapshot.data;
+                          // Customize what your widget looks like with no query results.
+                          if (snapshot.data.isEmpty) {
+                            return Container(
+                              height: 100,
+                              child: Center(
+                                child: Text('No results.'),
+                              ),
+                            );
+                          }
+                          final cardUsersRecord = cardUsersRecordList.first;
+                          return Card(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            color: Color(0xFF090F13),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                              child: InkWell(
+                                onTap: () async {
+                                  final usersUpdateData = createUsersRecordData(
+                                    displayName: fullNameController.text,
+                                  );
+                                  await currentUserReference
+                                      .update(usersUpdateData);
+                                },
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.asset(
+                                    'assets/images/social_Apple.svg',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       )
                     ],
                   ),
@@ -805,6 +648,37 @@ class _SignUp1WidgetState extends State<SignUp1Widget> {
                           );
                         },
                         text: 'Login',
+                        options: FFButtonOptions(
+                          width: 70,
+                          height: 30,
+                          color: Color(0x00FFFFFF),
+                          textStyle: FlutterFlowTheme.subtitle2.override(
+                            fontFamily: 'Lexend Deca',
+                            color: Color(0xFF39D2C0),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          elevation: 0,
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                          borderRadius: 0,
+                        ),
+                      ),
+                      FFButtonWidget(
+                        onPressed: () async {
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 300),
+                              reverseDuration: Duration(milliseconds: 300),
+                              child: Sign2Widget(),
+                            ),
+                          );
+                        },
+                        text: 'Sign2',
                         options: FFButtonOptions(
                           width: 70,
                           height: 30,

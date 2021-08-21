@@ -5,6 +5,7 @@ import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../sign2/sign2_widget.dart';
 import '../sign_up1/sign_up1_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -190,7 +191,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                       milliseconds: 300),
                                                   reverseDuration: Duration(
                                                       milliseconds: 300),
-                                                  child: CartWidget(),
+                                                  child: Sign2Widget(),
                                                 ),
                                                 (r) => false,
                                               );
@@ -543,7 +544,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                       duration: Duration(milliseconds: 300),
                                       reverseDuration:
                                           Duration(milliseconds: 300),
-                                      child: CartWidget(),
+                                      child: Sign2Widget(),
                                     ),
                                     (r) => false,
                                   );
@@ -671,7 +672,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                           duration: Duration(milliseconds: 300),
                                           reverseDuration:
                                               Duration(milliseconds: 300),
-                                          child: CartWidget(),
+                                          child: Sign2Widget(),
                                         ),
                                         (r) => false,
                                       );
@@ -726,8 +727,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                 if (user == null) {
                                                   return;
                                                 }
-                                                await Navigator
-                                                    .pushAndRemoveUntil(
+                                                await Navigator.push(
                                                   context,
                                                   PageTransition(
                                                     type:
@@ -738,7 +738,6 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                         milliseconds: 300),
                                                     child: CartWidget(),
                                                   ),
-                                                  (r) => false,
                                                 );
                                               },
                                               child: Container(
@@ -808,7 +807,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                 Duration(milliseconds: 300),
                                             reverseDuration:
                                                 Duration(milliseconds: 300),
-                                            child: CartWidget(),
+                                            child: Sign2Widget(),
                                           ),
                                           (r) => false,
                                         );
@@ -822,80 +821,93 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                           borderRadius:
                                               BorderRadius.circular(50),
                                         ),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(2, 2, 2, 2),
-                                          child:
-                                              StreamBuilder<List<UsersRecord>>(
-                                            stream: queryUsersRecord(
-                                              singleRecord: true,
-                                            ),
-                                            builder: (context, snapshot) {
-                                              // Customize what your widget looks like when it's loading.
-                                              if (!snapshot.hasData) {
-                                                return Center(
-                                                  child: SizedBox(
-                                                    width: 50,
-                                                    height: 50,
-                                                    child: SpinKitChasingDots(
-                                                      color: Color(0xFF561F51),
-                                                      size: 50,
-                                                    ),
-                                                  ),
-                                                );
-                                              }
-                                              List<UsersRecord>
-                                                  circleImageUsersRecordList =
-                                                  snapshot.data;
-                                              // Customize what your widget looks like with no query results.
-                                              if (snapshot.data.isEmpty) {
-                                                return Container(
-                                                  height: 100,
-                                                  child: Center(
-                                                    child: Text('No results.'),
-                                                  ),
-                                                );
-                                              }
-                                              final circleImageUsersRecord =
-                                                  circleImageUsersRecordList
-                                                      .first;
-                                              return InkWell(
-                                                onTap: () async {
-                                                  final user =
-                                                      await signInWithFacebook(
-                                                          context);
-                                                  if (user == null) {
-                                                    return;
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  2, 2, 2, 2),
+                                              child: StreamBuilder<
+                                                  List<UsersRecord>>(
+                                                stream: queryUsersRecord(
+                                                  singleRecord: true,
+                                                ),
+                                                builder: (context, snapshot) {
+                                                  // Customize what your widget looks like when it's loading.
+                                                  if (!snapshot.hasData) {
+                                                    return Center(
+                                                      child: SizedBox(
+                                                        width: 50,
+                                                        height: 50,
+                                                        child:
+                                                            SpinKitChasingDots(
+                                                          color:
+                                                              Color(0xFF561F51),
+                                                          size: 50,
+                                                        ),
+                                                      ),
+                                                    );
                                                   }
-                                                  await Navigator
-                                                      .pushAndRemoveUntil(
-                                                    context,
-                                                    PageTransition(
-                                                      type: PageTransitionType
-                                                          .fade,
-                                                      duration: Duration(
-                                                          milliseconds: 300),
-                                                      reverseDuration: Duration(
-                                                          milliseconds: 300),
-                                                      child: CartWidget(),
+                                                  List<UsersRecord>
+                                                      circleImageUsersRecordList =
+                                                      snapshot.data;
+                                                  // Customize what your widget looks like with no query results.
+                                                  if (snapshot.data.isEmpty) {
+                                                    return Container(
+                                                      height: 100,
+                                                      child: Center(
+                                                        child:
+                                                            Text('No results.'),
+                                                      ),
+                                                    );
+                                                  }
+                                                  final circleImageUsersRecord =
+                                                      circleImageUsersRecordList
+                                                          .first;
+                                                  return InkWell(
+                                                    onTap: () async {
+                                                      final user =
+                                                          await signInWithFacebook(
+                                                              context);
+                                                      if (user == null) {
+                                                        return;
+                                                      }
+                                                      await Navigator
+                                                          .pushAndRemoveUntil(
+                                                        context,
+                                                        PageTransition(
+                                                          type:
+                                                              PageTransitionType
+                                                                  .fade,
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  300),
+                                                          reverseDuration:
+                                                              Duration(
+                                                                  milliseconds:
+                                                                      300),
+                                                          child: Sign2Widget(),
+                                                        ),
+                                                        (r) => false,
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      width: 50,
+                                                      height: 50,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: Image.asset(
+                                                        'assets/images/2609541_facebook_media_social_icon.png',
+                                                      ),
                                                     ),
-                                                    (r) => false,
                                                   );
                                                 },
-                                                child: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  clipBehavior: Clip.antiAlias,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: Image.asset(
-                                                    'assets/images/2609541_facebook_media_social_icon.png',
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ),
                                     );
