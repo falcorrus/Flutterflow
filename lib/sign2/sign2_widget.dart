@@ -7,7 +7,6 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 
 class Sign2Widget extends StatefulWidget {
   Sign2Widget({Key key}) : super(key: key);
@@ -129,10 +128,12 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                               snapshot.data;
                                           // Customize what your widget looks like with no query results.
                                           if (snapshot.data.isEmpty) {
-                                            return Container(
-                                              height: 100,
-                                              child: Center(
-                                                child: Text('No results.'),
+                                            return Material(
+                                              child: Container(
+                                                height: 100,
+                                                child: Center(
+                                                  child: Text('No results.'),
+                                                ),
                                               ),
                                             );
                                           }
@@ -221,10 +222,12 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                               snapshot.data;
                                           // Customize what your widget looks like with no query results.
                                           if (snapshot.data.isEmpty) {
-                                            return Container(
-                                              height: 100,
-                                              child: Center(
-                                                child: Text('No results.'),
+                                            return Material(
+                                              child: Container(
+                                                height: 100,
+                                                child: Center(
+                                                  child: Text('No results.'),
+                                                ),
                                               ),
                                             );
                                           }
@@ -296,44 +299,81 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      final user = await signInWithEmail(
-                                        context,
-                                        emailFieldController.text,
-                                        passwordFieldController.text,
-                                      );
-                                      if (user == null) {
-                                        return;
+                                  child: StreamBuilder<List<UsersRecord>>(
+                                    stream: queryUsersRecord(
+                                      singleRecord: true,
+                                    ),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50,
+                                            height: 50,
+                                            child: SpinKitChasingDots(
+                                              color: Color(0xFF561F51),
+                                              size: 50,
+                                            ),
+                                          ),
+                                        );
                                       }
+                                      List<UsersRecord> buttonUsersRecordList =
+                                          snapshot.data;
+                                      // Customize what your widget looks like with no query results.
+                                      if (snapshot.data.isEmpty) {
+                                        return Material(
+                                          child: Container(
+                                            height: 100,
+                                            child: Center(
+                                              child: Text('No results.'),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      final buttonUsersRecord =
+                                          buttonUsersRecordList.first;
+                                      return FFButtonWidget(
+                                        onPressed: () async {
+                                          final user = await signInWithEmail(
+                                            context,
+                                            emailFieldController.text,
+                                            passwordFieldController.text,
+                                          );
+                                          if (user == null) {
+                                            return;
+                                          }
 
-                                      await Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.bottomToTop,
-                                          duration: Duration(milliseconds: 300),
-                                          reverseDuration:
-                                              Duration(milliseconds: 300),
-                                          child: CartWidget(),
+                                          await Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType
+                                                  .bottomToTop,
+                                              duration:
+                                                  Duration(milliseconds: 300),
+                                              reverseDuration:
+                                                  Duration(milliseconds: 300),
+                                              child: CartWidget(),
+                                            ),
+                                          );
+                                        },
+                                        text: 'Sign in',
+                                        options: FFButtonOptions(
+                                          width: 300,
+                                          height: 50,
+                                          color: Color(0xFF292C3B),
+                                          textStyle: GoogleFonts.getFont(
+                                            'Open Sans',
+                                            color: Color(0xFFDEDEDE),
+                                            fontSize: 16,
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 0,
+                                          ),
+                                          borderRadius: 25,
                                         ),
                                       );
                                     },
-                                    text: 'Sign in',
-                                    options: FFButtonOptions(
-                                      width: 300,
-                                      height: 50,
-                                      color: Color(0xFF292C3B),
-                                      textStyle: GoogleFonts.getFont(
-                                        'Open Sans',
-                                        color: Color(0xFFDEDEDE),
-                                        fontSize: 16,
-                                      ),
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 0,
-                                      ),
-                                      borderRadius: 25,
-                                    ),
                                   ),
                                 ),
                                 Text(
@@ -458,11 +498,13 @@ class _Sign2WidgetState extends State<Sign2Widget> {
                                                         snapshot.data;
                                                     // Customize what your widget looks like with no query results.
                                                     if (snapshot.data.isEmpty) {
-                                                      return Container(
-                                                        height: 100,
-                                                        child: Center(
-                                                          child: Text(
-                                                              'No results.'),
+                                                      return Material(
+                                                        child: Container(
+                                                          height: 100,
+                                                          child: Center(
+                                                            child: Text(
+                                                                'No results.'),
+                                                          ),
                                                         ),
                                                       );
                                                     }

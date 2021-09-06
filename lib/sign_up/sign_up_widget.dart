@@ -5,12 +5,10 @@ import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../sign2/sign2_widget.dart';
-import '../sign_up1/sign_up1_widget.dart';
+import '../register/register_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SignUpWidget extends StatefulWidget {
   SignUpWidget({Key key}) : super(key: key);
@@ -90,7 +88,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                'assets/images/myway eu2-01.png',
+                                'assets/images/myway_eu2-01.png',
                                 width: 240,
                                 height: 180,
                                 fit: BoxFit.cover,
@@ -126,10 +124,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                       snapshot.data;
                                   // Customize what your widget looks like with no query results.
                                   if (snapshot.data.isEmpty) {
-                                    return Container(
-                                      height: 100,
-                                      child: Center(
-                                        child: Text('No results.'),
+                                    return Material(
+                                      child: Container(
+                                        height: 100,
+                                        child: Center(
+                                          child: Text('No results.'),
+                                        ),
                                       ),
                                     );
                                   }
@@ -161,10 +161,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                               snapshot.data;
                                           // Customize what your widget looks like with no query results.
                                           if (snapshot.data.isEmpty) {
-                                            return Container(
-                                              height: 100,
-                                              child: Center(
-                                                child: Text('No results.'),
+                                            return Material(
+                                              child: Container(
+                                                height: 100,
+                                                child: Center(
+                                                  child: Text('No results.'),
+                                                ),
                                               ),
                                             );
                                           }
@@ -191,7 +193,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                       milliseconds: 300),
                                                   reverseDuration: Duration(
                                                       milliseconds: 300),
-                                                  child: Sign2Widget(),
+                                                  child: CartWidget(),
                                                 ),
                                                 (r) => false,
                                               );
@@ -252,10 +254,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                           snapshot.data;
                                       // Customize what your widget looks like with no query results.
                                       if (snapshot.data.isEmpty) {
-                                        return Container(
-                                          height: 100,
-                                          child: Center(
-                                            child: Text('No results.'),
+                                        return Material(
+                                          child: Container(
+                                            height: 100,
+                                            child: Center(
+                                              child: Text('No results.'),
+                                            ),
                                           ),
                                         );
                                       }
@@ -271,7 +275,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                   Duration(milliseconds: 300),
                                               reverseDuration:
                                                   Duration(milliseconds: 300),
-                                              child: SignUp1Widget(),
+                                              child: RegisterWidget(),
                                             ),
                                           );
                                         },
@@ -339,10 +343,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                   snapshot.data;
                               // Customize what your widget looks like with no query results.
                               if (snapshot.data.isEmpty) {
-                                return Container(
-                                  height: 100,
-                                  child: Center(
-                                    child: Text('No results.'),
+                                return Material(
+                                  child: Container(
+                                    height: 100,
+                                    child: Center(
+                                      child: Text('No results.'),
+                                    ),
                                   ),
                                 );
                               }
@@ -422,10 +428,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                   snapshot.data;
                               // Customize what your widget looks like with no query results.
                               if (snapshot.data.isEmpty) {
-                                return Container(
-                                  height: 100,
-                                  child: Center(
-                                    child: Text('No results.'),
+                                return Material(
+                                  child: Container(
+                                    height: 100,
+                                    child: Center(
+                                      child: Text('No results.'),
+                                    ),
                                   ),
                                 );
                               }
@@ -517,10 +525,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                   snapshot.data;
                               // Customize what your widget looks like with no query results.
                               if (snapshot.data.isEmpty) {
-                                return Container(
-                                  height: 100,
-                                  child: Center(
-                                    child: Text('No results.'),
+                                return Material(
+                                  child: Container(
+                                    height: 100,
+                                    child: Center(
+                                      child: Text('No results.'),
+                                    ),
                                   ),
                                 );
                               }
@@ -544,7 +554,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                       duration: Duration(milliseconds: 300),
                                       reverseDuration:
                                           Duration(milliseconds: 300),
-                                      child: Sign2Widget(),
+                                      child: CartWidget(),
                                     ),
                                     (r) => false,
                                   );
@@ -649,10 +659,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                       snapshot.data;
                                   // Customize what your widget looks like with no query results.
                                   if (snapshot.data.isEmpty) {
-                                    return Container(
-                                      height: 100,
-                                      child: Center(
-                                        child: Text('No results.'),
+                                    return Material(
+                                      child: Container(
+                                        height: 100,
+                                        child: Center(
+                                          child: Text('No results.'),
+                                        ),
                                       ),
                                     );
                                   }
@@ -672,7 +684,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                           duration: Duration(milliseconds: 300),
                                           reverseDuration:
                                               Duration(milliseconds: 300),
-                                          child: Sign2Widget(),
+                                          child: CartWidget(),
                                         ),
                                         (r) => false,
                                       );
@@ -709,10 +721,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                 snapshot.data;
                                             // Customize what your widget looks like with no query results.
                                             if (snapshot.data.isEmpty) {
-                                              return Container(
-                                                height: 100,
-                                                child: Center(
-                                                  child: Text('No results.'),
+                                              return Material(
+                                                child: Container(
+                                                  height: 100,
+                                                  child: Center(
+                                                    child: Text('No results.'),
+                                                  ),
                                                 ),
                                               );
                                             }
@@ -747,8 +761,8 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                 ),
-                                                child: Image.asset(
-                                                  'assets/images/1298745_google_brand_branding_logo_network_icon.png',
+                                                child: Image.network(
+                                                  '',
                                                 ),
                                               ),
                                             );
@@ -783,10 +797,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                         snapshot.data;
                                     // Customize what your widget looks like with no query results.
                                     if (snapshot.data.isEmpty) {
-                                      return Container(
-                                        height: 100,
-                                        child: Center(
-                                          child: Text('No results.'),
+                                      return Material(
+                                        child: Container(
+                                          height: 100,
+                                          child: Center(
+                                            child: Text('No results.'),
+                                          ),
                                         ),
                                       );
                                     }
@@ -807,7 +823,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                 Duration(milliseconds: 300),
                                             reverseDuration:
                                                 Duration(milliseconds: 300),
-                                            child: Sign2Widget(),
+                                            child: CartWidget(),
                                           ),
                                           (r) => false,
                                         );
@@ -853,11 +869,13 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                       snapshot.data;
                                                   // Customize what your widget looks like with no query results.
                                                   if (snapshot.data.isEmpty) {
-                                                    return Container(
-                                                      height: 100,
-                                                      child: Center(
-                                                        child:
-                                                            Text('No results.'),
+                                                    return Material(
+                                                      child: Container(
+                                                        height: 100,
+                                                        child: Center(
+                                                          child: Text(
+                                                              'No results.'),
+                                                        ),
                                                       ),
                                                     );
                                                   }
@@ -886,7 +904,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                               Duration(
                                                                   milliseconds:
                                                                       300),
-                                                          child: Sign2Widget(),
+                                                          child: CartWidget(),
                                                         ),
                                                         (r) => false,
                                                       );
@@ -899,8 +917,8 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                       decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
                                                       ),
-                                                      child: Image.asset(
-                                                        'assets/images/2609541_facebook_media_social_icon.png',
+                                                      child: Image.network(
+                                                        '',
                                                       ),
                                                     ),
                                                   );

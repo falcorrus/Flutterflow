@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'auth/firebase_user_provider.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:mywayeu/sign_up/sign_up_widget.dart';
-import 'package:mywayeu/sign2/sign2_widget.dart';
+import 'package:mywayeu/cart/cart_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() async {
@@ -38,14 +38,14 @@ class _MyAppState extends State<MyApp> {
           ? Center(
               child: Builder(
                 builder: (context) => Image.asset(
-                  'assets/images/myway eu2-01.png',
+                  'assets/images/myway_eu2-01.png',
                   width: MediaQuery.of(context).size.width / 2,
                   fit: BoxFit.fitWidth,
                 ),
               ),
             )
           : currentUser.loggedIn
-              ? Sign2Widget()
+              ? CartWidget()
               : SignUpWidget(),
     );
   }

@@ -32,6 +32,7 @@ dependencies:
   firebase_core: ^1.4.0
   flutter_facebook_auth: ^3.5.0
   flutter_spinkit: ^4.1.2+1
+  flutter_svg: ^0.22.0
   font_awesome_flutter:
   geolocator:
   google_fonts: ^2.1.0
@@ -61,7 +62,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: 'assets/images/myway eu2-01.png'
+  image_path: 'assets/images/app_launcher_icon.png'
 
 
 # For information on the generic Dart part of this file, see the

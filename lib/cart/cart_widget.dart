@@ -1,13 +1,12 @@
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../register/register_widget.dart';
 import '../sign_up/sign_up_widget.dart';
-import '../sign_up1/sign_up1_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 
 class CartWidget extends StatefulWidget {
   CartWidget({Key key}) : super(key: key);
@@ -500,7 +499,7 @@ class _CartWidgetState extends State<CartWidget> {
                             type: PageTransitionType.bottomToTop,
                             duration: Duration(milliseconds: 300),
                             reverseDuration: Duration(milliseconds: 300),
-                            child: SignUp1Widget(),
+                            child: RegisterWidget(),
                           ),
                         );
                       },
