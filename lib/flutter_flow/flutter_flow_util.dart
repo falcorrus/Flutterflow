@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'lat_lng.dart';
 
+export 'dart:math' show min, max;
 export 'package:page_transition/page_transition.dart';
 export 'lat_lng.dart';
 export 'place.dart';
@@ -28,10 +29,10 @@ String dateTimeFormat(String format, DateTime dateTime) {
 
 Future launchURL(String url) async {
   var uri = Uri.parse(url).toString();
-  if (await canLaunch(uri)) {
+  try {
     await launch(uri);
-  } else {
-    throw 'Could not launch $uri';
+  } catch (e) {
+    throw 'Could not launch $uri: $e';
   }
 }
 
@@ -92,7 +93,7 @@ void showSnackbar(
         children: [
           if (loading)
             Padding(
-              padding: EdgeInsets.only(right: 10.0),
+              padding: EdgeInsetsDirectional.only(end: 10.0),
               child: Container(
                 height: 20,
                 width: 20,

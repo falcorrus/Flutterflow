@@ -1,10 +1,10 @@
 import '../auth/auth_util.dart';
-import '../backend/backend.dart';
 import '../cart/cart_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../list_page/list_page_widget.dart';
 import '../register/register_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -24,6 +24,11 @@ class _SignUpWidgetState extends State<SignUpWidget>
   bool passwordVisibility;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
+    'columnOnPageLoadAnimation': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      duration: 600,
+      fadeIn: true,
+    ),
     'buttonOnPageLoadAnimation1': AnimationInfo(
       curve: Curves.easeIn,
       trigger: AnimationTrigger.onPageLoad,
@@ -31,6 +36,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
       fadeIn: true,
     ),
     'buttonOnPageLoadAnimation2': AnimationInfo(
+      curve: Curves.easeOut,
+      trigger: AnimationTrigger.onPageLoad,
+      duration: 600,
+      fadeIn: true,
+    ),
+    'buttonOnPageLoadAnimation3': AnimationInfo(
       curve: Curves.easeIn,
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
@@ -76,13 +87,13 @@ class _SignUpWidgetState extends State<SignUpWidget>
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 70, 0, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 24, 0, 60),
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 20),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -97,495 +108,250 @@ class _SignUpWidgetState extends State<SignUpWidget>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              StreamBuilder<List<UsersRecord>>(
-                                stream: queryUsersRecord(
-                                  singleRecord: true,
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 50,
-                                        height: 50,
-                                        child: SpinKitChasingDots(
-                                          color: Color(0xFF561F51),
-                                          size: 50,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  List<UsersRecord> columnUsersRecordList =
-                                      snapshot.data;
-                                  // Customize what your widget looks like with no query results.
-                                  if (snapshot.data.isEmpty) {
-                                    return Material(
-                                      child: Container(
-                                        height: 100,
-                                        child: Center(
-                                          child: Text('No results.'),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  final columnUsersRecord =
-                                      columnUsersRecordList.first;
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      StreamBuilder<List<UsersRecord>>(
-                                        stream: queryUsersRecord(
-                                          singleRecord: true,
-                                        ),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 50,
-                                                height: 50,
-                                                child: SpinKitChasingDots(
-                                                  color: Color(0xFF561F51),
-                                                  size: 50,
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                          List<UsersRecord>
-                                              signInUsersRecordList =
-                                              snapshot.data;
-                                          // Customize what your widget looks like with no query results.
-                                          if (snapshot.data.isEmpty) {
-                                            return Material(
-                                              child: Container(
-                                                height: 100,
-                                                child: Center(
-                                                  child: Text('No results.'),
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                          final signInUsersRecord =
-                                              signInUsersRecordList.first;
-                                          return InkWell(
-                                            onTap: () async {
-                                              final user =
-                                                  await signInWithEmail(
-                                                context,
-                                                emailController.text,
-                                                passwordController.text,
-                                              );
-                                              if (user == null) {
-                                                return;
-                                              }
-
-                                              await Navigator
-                                                  .pushAndRemoveUntil(
-                                                context,
-                                                PageTransition(
-                                                  type: PageTransitionType.fade,
-                                                  duration: Duration(
-                                                      milliseconds: 300),
-                                                  reverseDuration: Duration(
-                                                      milliseconds: 300),
-                                                  child: CartWidget(),
-                                                ),
-                                                (r) => false,
-                                              );
-                                            },
-                                            child: Text(
-                                              'Войти',
-                                              style: FlutterFlowTheme.subtitle1
-                                                  .override(
-                                                fontFamily: 'Lexend Deca',
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 12, 0, 0),
-                                        child: Container(
-                                          width: 90,
-                                          height: 3,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(2),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                },
-                              ),
                               Column(
                                 mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  StreamBuilder<List<UsersRecord>>(
-                                    stream: queryUsersRecord(
-                                      singleRecord: true,
-                                    ),
-                                    builder: (context, snapshot) {
-                                      // Customize what your widget looks like when it's loading.
-                                      if (!snapshot.hasData) {
-                                        return Center(
-                                          child: SizedBox(
-                                            width: 50,
-                                            height: 50,
-                                            child: SpinKitChasingDots(
-                                              color: Color(0xFF561F51),
-                                              size: 50,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                      List<UsersRecord>
-                                          registrationUsersRecordList =
-                                          snapshot.data;
-                                      // Customize what your widget looks like with no query results.
-                                      if (snapshot.data.isEmpty) {
-                                        return Material(
-                                          child: Container(
-                                            height: 100,
-                                            child: Center(
-                                              child: Text('No results.'),
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                      final registrationUsersRecord =
-                                          registrationUsersRecordList.first;
-                                      return FFButtonWidget(
-                                        onPressed: () async {
-                                          await Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType.fade,
-                                              duration:
-                                                  Duration(milliseconds: 300),
-                                              reverseDuration:
-                                                  Duration(milliseconds: 300),
-                                              child: RegisterWidget(),
-                                            ),
-                                          );
-                                        },
-                                        text: 'Register',
-                                        options: FFButtonOptions(
-                                          width: 100,
-                                          height: 50,
-                                          color: Color(0x004B39EF),
-                                          textStyle: FlutterFlowTheme.subtitle1
-                                              .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color: Color(0x98FFFFFF),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1,
-                                          ),
-                                          borderRadius: 12,
-                                        ),
-                                      ).animated([
-                                        animationsMap[
-                                            'buttonOnPageLoadAnimation1']
-                                      ]);
+                                  FFButtonWidget(
+                                    onPressed: () {
+                                      print('Signup pressed ...');
                                     },
-                                  ),
+                                    text: 'Sign-up',
+                                    options: FFButtonOptions(
+                                      width: 100,
+                                      height: 30,
+                                      color: Color(0x004B39EF),
+                                      textStyle:
+                                          FlutterFlowTheme.subtitle1.override(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                      borderRadius: 6,
+                                    ),
+                                  ).animated([
+                                    animationsMap['buttonOnPageLoadAnimation1']
+                                  ]),
                                   Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 5, 0, 0),
                                     child: Container(
                                       width: 90,
                                       height: 3,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFF4B39EF),
+                                        color: Colors.white,
                                         borderRadius: BorderRadius.circular(2),
                                       ),
                                     ),
                                   )
+                                ],
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  FFButtonWidget(
+                                    onPressed: () async {
+                                      await Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.fade,
+                                          duration: Duration(milliseconds: 300),
+                                          reverseDuration:
+                                              Duration(milliseconds: 300),
+                                          child: RegisterWidget(),
+                                        ),
+                                      );
+                                    },
+                                    text: 'Register',
+                                    options: FFButtonOptions(
+                                      width: 100,
+                                      height: 30,
+                                      color: Color(0x004B39EF),
+                                      textStyle:
+                                          FlutterFlowTheme.subtitle1.override(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Color(0x98FFFFFF),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                      borderRadius: 6,
+                                    ),
+                                  ).animated([
+                                    animationsMap['buttonOnPageLoadAnimation2']
+                                  ])
                                 ],
                               )
                             ],
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                          child: StreamBuilder<List<UsersRecord>>(
-                            stream: queryUsersRecord(
-                              singleRecord: true,
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
+                          child: TextFormField(
+                            controller: emailController,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Email Address',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Lexend Deca',
+                                color: Color(0x98FFFFFF),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              hintText: 'Enter your email...',
+                              hintStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Lexend Deca',
+                                color: Color(0x98FFFFFF),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              filled: true,
+                              fillColor: Color(0xFF3124A1),
+                              contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                  20, 24, 20, 24),
                             ),
-                            builder: (context, snapshot) {
-                              // Customize what your widget looks like when it's loading.
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: SizedBox(
-                                    width: 50,
-                                    height: 50,
-                                    child: SpinKitChasingDots(
-                                      color: Color(0xFF561F51),
-                                      size: 50,
-                                    ),
-                                  ),
-                                );
-                              }
-                              List<UsersRecord> emailUsersRecordList =
-                                  snapshot.data;
-                              // Customize what your widget looks like with no query results.
-                              if (snapshot.data.isEmpty) {
-                                return Material(
-                                  child: Container(
-                                    height: 100,
-                                    child: Center(
-                                      child: Text('No results.'),
-                                    ),
-                                  ),
-                                );
-                              }
-                              final emailUsersRecord =
-                                  emailUsersRecordList.first;
-                              return TextFormField(
-                                controller: emailController,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  labelText: 'Email Address',
-                                  labelStyle:
-                                      FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0x98FFFFFF),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  hintText: 'Enter your email...',
-                                  hintStyle:
-                                      FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0x98FFFFFF),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  filled: true,
-                                  fillColor: Color(0xFF3124A1),
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(20, 24, 20, 24),
-                                ),
-                                style: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                              );
-                            },
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Lexend Deca',
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            keyboardType: TextInputType.emailAddress,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
-                          child: StreamBuilder<List<UsersRecord>>(
-                            stream: queryUsersRecord(
-                              singleRecord: true,
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
+                          child: TextFormField(
+                            controller: passwordController,
+                            obscureText: !passwordVisibility,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Lexend Deca',
+                                color: Color(0x98FFFFFF),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              hintText: 'Enter your password...',
+                              hintStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Lexend Deca',
+                                color: Color(0x98FFFFFF),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              filled: true,
+                              fillColor: Color(0xFF3124A1),
+                              contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                  20, 24, 20, 24),
+                              suffixIcon: InkWell(
+                                onTap: () => setState(
+                                  () =>
+                                      passwordVisibility = !passwordVisibility,
+                                ),
+                                child: Icon(
+                                  passwordVisibility
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                  color: Color(0x98FFFFFF),
+                                  size: 20,
+                                ),
+                              ),
                             ),
-                            builder: (context, snapshot) {
-                              // Customize what your widget looks like when it's loading.
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: SizedBox(
-                                    width: 50,
-                                    height: 50,
-                                    child: SpinKitChasingDots(
-                                      color: Color(0xFF561F51),
-                                      size: 50,
-                                    ),
-                                  ),
-                                );
-                              }
-                              List<UsersRecord> passwordUsersRecordList =
-                                  snapshot.data;
-                              // Customize what your widget looks like with no query results.
-                              if (snapshot.data.isEmpty) {
-                                return Material(
-                                  child: Container(
-                                    height: 100,
-                                    child: Center(
-                                      child: Text('No results.'),
-                                    ),
-                                  ),
-                                );
-                              }
-                              final passwordUsersRecord =
-                                  passwordUsersRecordList.first;
-                              return TextFormField(
-                                controller: passwordController,
-                                obscureText: !passwordVisibility,
-                                decoration: InputDecoration(
-                                  labelText: 'Password',
-                                  labelStyle:
-                                      FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0x98FFFFFF),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  hintText: 'Enter your password...',
-                                  hintStyle:
-                                      FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0x98FFFFFF),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  filled: true,
-                                  fillColor: Color(0xFF3124A1),
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(20, 24, 20, 24),
-                                  suffixIcon: InkWell(
-                                    onTap: () => setState(
-                                      () => passwordVisibility =
-                                          !passwordVisibility,
-                                    ),
-                                    child: Icon(
-                                      passwordVisibility
-                                          ? Icons.visibility_outlined
-                                          : Icons.visibility_off_outlined,
-                                      color: Color(0x98FFFFFF),
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
-                                style: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              );
-                            },
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Lexend Deca',
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
-                          child: StreamBuilder<List<UsersRecord>>(
-                            stream: queryUsersRecord(
-                              singleRecord: true,
-                            ),
-                            builder: (context, snapshot) {
-                              // Customize what your widget looks like when it's loading.
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: SizedBox(
-                                    width: 50,
-                                    height: 50,
-                                    child: SpinKitChasingDots(
-                                      color: Color(0xFF561F51),
-                                      size: 50,
-                                    ),
-                                  ),
-                                );
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+                          child: FFButtonWidget(
+                            onPressed: () async {
+                              final user = await signInWithEmail(
+                                context,
+                                emailController.text,
+                                passwordController.text,
+                              );
+                              if (user == null) {
+                                return;
                               }
-                              List<UsersRecord> buttonLoginUsersRecordList =
-                                  snapshot.data;
-                              // Customize what your widget looks like with no query results.
-                              if (snapshot.data.isEmpty) {
-                                return Material(
-                                  child: Container(
-                                    height: 100,
-                                    child: Center(
-                                      child: Text('No results.'),
-                                    ),
-                                  ),
-                                );
-                              }
-                              final buttonLoginUsersRecord =
-                                  buttonLoginUsersRecordList.first;
-                              return FFButtonWidget(
-                                onPressed: () async {
-                                  final user = await signInWithEmail(
-                                    context,
-                                    emailController.text,
-                                    passwordController.text,
-                                  );
-                                  if (user == null) {
-                                    return;
-                                  }
 
-                                  await Navigator.pushAndRemoveUntil(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      duration: Duration(milliseconds: 300),
-                                      reverseDuration:
-                                          Duration(milliseconds: 300),
-                                      child: CartWidget(),
-                                    ),
-                                    (r) => false,
-                                  );
-                                },
-                                text: 'Login',
-                                options: FFButtonOptions(
-                                  width: 230,
-                                  height: 60,
-                                  color: Colors.white,
-                                  textStyle:
-                                      FlutterFlowTheme.subtitle2.override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF4B39EF),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  elevation: 3,
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1,
-                                  ),
-                                  borderRadius: 8,
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ListPageWidget(),
                                 ),
-                              ).animated([
-                                animationsMap['buttonOnPageLoadAnimation2']
-                              ]);
+                              );
                             },
-                          ),
+                            text: 'Войти',
+                            options: FFButtonOptions(
+                              width: 230,
+                              height: 60,
+                              color: Colors.white,
+                              textStyle: FlutterFlowTheme.subtitle2.override(
+                                fontFamily: 'Lexend Deca',
+                                color: Color(0xFF4B39EF),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              elevation: 3,
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1,
+                              ),
+                              borderRadius: 8,
+                            ),
+                          ).animated(
+                              [animationsMap['buttonOnPageLoadAnimation3']]),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                           child: FFButtonWidget(
                             onPressed: () {
                               print('Button-ForgotPassword pressed ...');
@@ -611,15 +377,16 @@ class _SignUpWidgetState extends State<SignUpWidget>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                                 child: Text(
-                                  'Or use a social account to login',
+                                  'Другие способы входа',
                                   style: FlutterFlowTheme.bodyText1.override(
                                     fontFamily: 'Lexend Deca',
                                     color: Color(0x98FFFFFF),
@@ -632,125 +399,127 @@ class _SignUpWidgetState extends State<SignUpWidget>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(20, 16, 20, 20),
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(20, 16, 20, 20),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              StreamBuilder<List<UsersRecord>>(
-                                stream: queryUsersRecord(
-                                  singleRecord: true,
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
+                              InkWell(
+                                onTap: () async {
+                                  final user = await signInWithGoogle(context);
+                                  if (user == null) {
+                                    return;
+                                  }
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CartWidget(),
+                                    ),
+                                  );
+                                },
+                                child: Card(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  color: Color(0xFF090F13),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        2, 2, 2, 2),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        final user =
+                                            await signInWithGoogle(context);
+                                        if (user == null) {
+                                          return;
+                                        }
+                                        await Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            reverseDuration:
+                                                Duration(milliseconds: 300),
+                                            child: CartWidget(),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
                                         width: 50,
                                         height: 50,
-                                        child: SpinKitChasingDots(
-                                          color: Color(0xFF561F51),
-                                          size: 50,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
                                         ),
+                                        child: Image.asset(
+                                          'assets/images/img-2021-09-07-12-27-35.png',
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    final user =
+                                        await signInWithFacebook(context);
+                                    if (user == null) {
+                                      return;
+                                    }
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => CartWidget(),
                                       ),
                                     );
-                                  }
-                                  List<UsersRecord> cardUsersRecordList =
-                                      snapshot.data;
-                                  // Customize what your widget looks like with no query results.
-                                  if (snapshot.data.isEmpty) {
-                                    return Material(
-                                      child: Container(
-                                        height: 100,
-                                        child: Center(
-                                          child: Text('No results.'),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  final cardUsersRecord =
-                                      cardUsersRecordList.first;
-                                  return InkWell(
-                                    onTap: () async {
-                                      final user =
-                                          await signInWithGoogle(context);
-                                      if (user == null) {
-                                        return;
-                                      }
-                                      await Navigator.pushAndRemoveUntil(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.fade,
-                                          duration: Duration(milliseconds: 300),
-                                          reverseDuration:
-                                              Duration(milliseconds: 300),
-                                          child: CartWidget(),
-                                        ),
-                                        (r) => false,
-                                      );
-                                    },
-                                    child: Card(
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      color: Color(0xFF090F13),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(2, 2, 2, 2),
-                                        child: StreamBuilder<List<UsersRecord>>(
-                                          stream: queryUsersRecord(
-                                            singleRecord: true,
+                                  },
+                                  child: Card(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    color: Color(0xFF090F13),
+                                    elevation: 3,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        final user =
+                                            await signInWithFacebook(context);
+                                        if (user == null) {
+                                          return;
+                                        }
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ListPageWidget(),
                                           ),
-                                          builder: (context, snapshot) {
-                                            // Customize what your widget looks like when it's loading.
-                                            if (!snapshot.hasData) {
-                                              return Center(
-                                                child: SizedBox(
-                                                  width: 50,
-                                                  height: 50,
-                                                  child: SpinKitChasingDots(
-                                                    color: Color(0xFF561F51),
-                                                    size: 50,
-                                                  ),
-                                                ),
-                                              );
-                                            }
-                                            List<UsersRecord>
-                                                circleImageUsersRecordList =
-                                                snapshot.data;
-                                            // Customize what your widget looks like with no query results.
-                                            if (snapshot.data.isEmpty) {
-                                              return Material(
-                                                child: Container(
-                                                  height: 100,
-                                                  child: Center(
-                                                    child: Text('No results.'),
-                                                  ),
-                                                ),
-                                              );
-                                            }
-                                            final circleImageUsersRecord =
-                                                circleImageUsersRecordList
-                                                    .first;
-                                            return InkWell(
+                                        );
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    2, 2, 2, 2),
+                                            child: InkWell(
                                               onTap: () async {
                                                 final user =
-                                                    await signInWithGoogle(
+                                                    await signInWithFacebook(
                                                         context);
                                                 if (user == null) {
                                                   return;
                                                 }
                                                 await Navigator.push(
                                                   context,
-                                                  PageTransition(
-                                                    type:
-                                                        PageTransitionType.fade,
-                                                    duration: Duration(
-                                                        milliseconds: 300),
-                                                    reverseDuration: Duration(
-                                                        milliseconds: 300),
-                                                    child: CartWidget(),
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CartWidget(),
                                                   ),
                                                 );
                                               },
@@ -761,175 +530,107 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                 ),
-                                                child: Image.network(
-                                                  '',
+                                                child: Image.asset(
+                                                  'assets/images/287739_facebook_icon.png',
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        ),
+                                            ),
+                                          )
+                                        ],
                                       ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  final user = await signInWithApple(context);
+                                  if (user == null) {
+                                    return;
+                                  }
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CartWidget(),
                                     ),
                                   );
                                 },
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                child: StreamBuilder<List<UsersRecord>>(
-                                  stream: queryUsersRecord(
-                                    singleRecord: true,
+                                child: Card(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  color: Color(0xFF090F13),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
                                   ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50,
-                                          height: 50,
-                                          child: SpinKitChasingDots(
-                                            color: Color(0xFF561F51),
-                                            size: 50,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    List<UsersRecord> cardUsersRecordList =
-                                        snapshot.data;
-                                    // Customize what your widget looks like with no query results.
-                                    if (snapshot.data.isEmpty) {
-                                      return Material(
-                                        child: Container(
-                                          height: 100,
-                                          child: Center(
-                                            child: Text('No results.'),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    final cardUsersRecord =
-                                        cardUsersRecordList.first;
-                                    return InkWell(
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        2, 2, 2, 2),
+                                    child: InkWell(
                                       onTap: () async {
                                         final user =
-                                            await signInWithFacebook(context);
+                                            await signInWithApple(context);
                                         if (user == null) {
                                           return;
                                         }
-                                        await Navigator.pushAndRemoveUntil(
+                                        await Navigator.push(
                                           context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            duration:
-                                                Duration(milliseconds: 300),
-                                            reverseDuration:
-                                                Duration(milliseconds: 300),
-                                            child: CartWidget(),
+                                          MaterialPageRoute(
+                                            builder: (context) => CartWidget(),
                                           ),
-                                          (r) => false,
                                         );
                                       },
-                                      child: Card(
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        color: Color(0xFF090F13),
-                                        elevation: 3,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
+                                      child: Container(
+                                        width: 50,
+                                        height: 50,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
                                         ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  2, 2, 2, 2),
-                                              child: StreamBuilder<
-                                                  List<UsersRecord>>(
-                                                stream: queryUsersRecord(
-                                                  singleRecord: true,
-                                                ),
-                                                builder: (context, snapshot) {
-                                                  // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
-                                                    return Center(
-                                                      child: SizedBox(
-                                                        width: 50,
-                                                        height: 50,
-                                                        child:
-                                                            SpinKitChasingDots(
-                                                          color:
-                                                              Color(0xFF561F51),
-                                                          size: 50,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                  List<UsersRecord>
-                                                      circleImageUsersRecordList =
-                                                      snapshot.data;
-                                                  // Customize what your widget looks like with no query results.
-                                                  if (snapshot.data.isEmpty) {
-                                                    return Material(
-                                                      child: Container(
-                                                        height: 100,
-                                                        child: Center(
-                                                          child: Text(
-                                                              'No results.'),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                  final circleImageUsersRecord =
-                                                      circleImageUsersRecordList
-                                                          .first;
-                                                  return InkWell(
-                                                    onTap: () async {
-                                                      final user =
-                                                          await signInWithFacebook(
-                                                              context);
-                                                      if (user == null) {
-                                                        return;
-                                                      }
-                                                      await Navigator
-                                                          .pushAndRemoveUntil(
-                                                        context,
-                                                        PageTransition(
-                                                          type:
-                                                              PageTransitionType
-                                                                  .fade,
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  300),
-                                                          reverseDuration:
-                                                              Duration(
-                                                                  milliseconds:
-                                                                      300),
-                                                          child: CartWidget(),
-                                                        ),
-                                                        (r) => false,
-                                                      );
-                                                    },
-                                                    child: Container(
-                                                      width: 50,
-                                                      height: 50,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      child: Image.network(
-                                                        '',
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            )
-                                          ],
+                                        child: Image.asset(
+                                          'assets/images/img-2021-09-07-12-29-21.png',
                                         ),
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  final user = await signInAnonymously(context);
+                                  if (user == null) {
+                                    return;
+                                  }
+                                  await Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.bottomToTop,
+                                      duration: Duration(milliseconds: 300),
+                                      reverseDuration:
+                                          Duration(milliseconds: 300),
+                                      child: CartWidget(),
+                                    ),
+                                  );
+                                },
+                                child: Card(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  color: Color(0xFF090F13),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        2, 2, 2, 2),
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Image.asset(
+                                        'assets/images/myway_eu2-01.png',
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               )
                             ],
@@ -943,7 +644,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
             ],
           )
         ],
-      ),
+      ).animated([animationsMap['columnOnPageLoadAnimation']]),
     );
   }
 }

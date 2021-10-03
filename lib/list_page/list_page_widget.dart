@@ -1,28 +1,25 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
-import '../flutter_flow/flutter_flow_count_controller.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CartWidget extends StatefulWidget {
-  CartWidget({Key key}) : super(key: key);
+class ListPageWidget extends StatefulWidget {
+  ListPageWidget({Key key}) : super(key: key);
 
   @override
-  _CartWidgetState createState() => _CartWidgetState();
+  _ListPageWidgetState createState() => _ListPageWidgetState();
 }
 
-class _CartWidgetState extends State<CartWidget> {
+class _ListPageWidgetState extends State<ListPageWidget> {
   TextEditingController nameFieldController;
-  bool switchListTileValue;
   double sliderValue;
-  int countControllerValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -87,35 +84,6 @@ class _CartWidgetState extends State<CartWidget> {
                   )
                 ],
               ),
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 4, 16, 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Order Total',
-                      style: FlutterFlowTheme.bodyText2.override(
-                        fontFamily: 'Lexend Deca',
-                        color: Color(0xFF8B97A2),
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    Text(
-                      '\$25.00',
-                      textAlign: TextAlign.end,
-                      style: FlutterFlowTheme.subtitle2.override(
-                        fontFamily: 'Lexend Deca',
-                        color: Color(0xFF151B1E),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                  ],
-                ),
-              ),
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(1, 0, 0, 0),
@@ -158,51 +126,14 @@ class _CartWidgetState extends State<CartWidget> {
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           8, 0, 0, 0),
-                                      child: StreamBuilder<List<UsersRecord>>(
-                                        stream: queryUsersRecord(
-                                          singleRecord: true,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.asset(
+                                          'assets/images/photoBook.png',
+                                          width: 74,
+                                          height: 74,
+                                          fit: BoxFit.cover,
                                         ),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 50,
-                                                height: 50,
-                                                child: SpinKitChasingDots(
-                                                  color: Color(0xFF561F51),
-                                                  size: 50,
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                          List<UsersRecord>
-                                              productImageUsersRecordList =
-                                              snapshot.data;
-                                          // Customize what your widget looks like with no query results.
-                                          if (snapshot.data.isEmpty) {
-                                            return Material(
-                                              child: Container(
-                                                height: 100,
-                                                child: Center(
-                                                  child: Text('No results.'),
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                          final productImageUsersRecord =
-                                              productImageUsersRecordList.first;
-                                          return ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.asset(
-                                              'assets/images/img-2021-09-07-12-29-21.png',
-                                              width: 74,
-                                              height: 74,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          );
-                                        },
                                       ),
                                     )
                                   ],
@@ -218,28 +149,12 @@ class _CartWidgetState extends State<CartWidget> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          valueOrDefault<String>(
-                                            nameFieldController.text,
-                                            'Unknown user',
-                                          ),
-                                          style:
-                                              FlutterFlowTheme.title1.override(
-                                            fontFamily: 'Poppins',
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 4, 0, 4),
+                                        AuthUserStreamWidget(
                                           child: Text(
-                                            'Color: Green',
-                                            style: FlutterFlowTheme.bodyText1
+                                            currentUserEmail,
+                                            style: FlutterFlowTheme.subtitle2
                                                 .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Color(0xFF090F13),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Poppins',
                                             ),
                                           ),
                                         ),
@@ -389,29 +304,7 @@ class _CartWidgetState extends State<CartWidget> {
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 16),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              'assets/images/applePay.png',
-                              width: 160,
-                              height: 44,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.asset(
-                            'assets/images/payPal.png',
-                            width: 160,
-                            height: 44,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      ],
+                      children: [],
                     ),
                     FFButtonWidget(
                       onPressed: () {
@@ -449,75 +342,6 @@ class _CartWidgetState extends State<CartWidget> {
               onChanged: (newValue) {
                 setState(() => sliderValue = newValue);
               },
-            ),
-            RatingBarIndicator(
-              itemBuilder: (context, index) => Icon(
-                Icons.star_rounded,
-                color: FlutterFlowTheme.secondaryColor,
-              ),
-              direction: Axis.horizontal,
-              rating: 3,
-              unratedColor: Color(0xFF9E9E9E),
-              itemCount: 5,
-              itemSize: 40,
-            ),
-            Container(
-              width: 160,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25),
-                shape: BoxShape.rectangle,
-                border: Border.all(
-                  color: Color(0xFF9E9E9E),
-                  width: 1,
-                ),
-              ),
-              child: FlutterFlowCountController(
-                decrementIconBuilder: (enabled) => FaIcon(
-                  FontAwesomeIcons.minus,
-                  color: enabled ? Color(0xDD000000) : Color(0xFFEEEEEE),
-                  size: 20,
-                ),
-                incrementIconBuilder: (enabled) => FaIcon(
-                  FontAwesomeIcons.plus,
-                  color: enabled ? Colors.blue : Color(0xFFEEEEEE),
-                  size: 20,
-                ),
-                countBuilder: (count) => Text(
-                  count.toString(),
-                  style: GoogleFonts.getFont(
-                    'Roboto',
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
-                ),
-                count: countControllerValue ??= 0,
-                updateCount: (count) =>
-                    setState(() => countControllerValue = count),
-                stepSize: 1,
-              ),
-            ),
-            SwitchListTile(
-              value: switchListTileValue ??= true,
-              onChanged: (newValue) =>
-                  setState(() => switchListTileValue = newValue),
-              title: Text(
-                'Title',
-                style: FlutterFlowTheme.title3.override(
-                  fontFamily: 'Poppins',
-                ),
-              ),
-              subtitle: Text(
-                'Subtitle',
-                style: FlutterFlowTheme.subtitle2.override(
-                  fontFamily: 'Poppins',
-                ),
-              ),
-              tileColor: Color(0xFFF5F5F5),
-              dense: false,
-              controlAffinity: ListTileControlAffinity.trailing,
             ),
             TextFormField(
               onChanged: (_) => setState(() {}),
@@ -563,6 +387,94 @@ class _CartWidgetState extends State<CartWidget> {
               ),
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder<List<UsersRecord>>(
+                stream: queryUsersRecord(),
+                builder: (context, snapshot) {
+                  // Customize what your widget looks like when it's loading.
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: SpinKitChasingDots(
+                          color: Color(0xFF561F51),
+                          size: 50,
+                        ),
+                      ),
+                    );
+                  }
+                  List<UsersRecord> listViewUsersRecordList = snapshot.data;
+                  // Customize what your widget looks like with no query results.
+                  if (snapshot.data.isEmpty) {
+                    return Material(
+                      child: Container(
+                        height: 100,
+                        child: Center(
+                          child: Text('No results.'),
+                        ),
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.vertical,
+                    itemCount: listViewUsersRecordList.length,
+                    itemBuilder: (context, listViewIndex) {
+                      final listViewUsersRecord =
+                          listViewUsersRecordList[listViewIndex];
+                      return Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFEEEEEE),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                AuthUserStreamWidget(
+                                  child: StreamBuilder<List<UsersRecord>>(
+                                    stream: queryUsersRecord(),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50,
+                                            height: 50,
+                                            child: SpinKitChasingDots(
+                                              color: Color(0xFF561F51),
+                                              size: 50,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      List<UsersRecord> textUsersRecordList =
+                                          snapshot.data;
+                                      return Text(
+                                        currentUserEmail,
+                                        style:
+                                            FlutterFlowTheme.bodyText1.override(
+                                          fontFamily: 'Poppins',
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             )
           ],
