@@ -566,15 +566,11 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                         2, 2, 2, 2),
                                     child: InkWell(
                                       onTap: () async {
-                                        final user =
-                                            await signInWithApple(context);
-                                        if (user == null) {
-                                          return;
-                                        }
                                         await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => CartWidget(),
+                                            builder: (context) =>
+                                                ListPageWidget(),
                                           ),
                                         );
                                       },
