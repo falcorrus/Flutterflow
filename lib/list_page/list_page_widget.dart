@@ -1,17 +1,23 @@
-import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
+import '../profile_page/profile_page_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ListPageWidget extends StatefulWidget {
-  ListPageWidget({Key key}) : super(key: key);
+  ListPageWidget({
+    Key key,
+    this.who,
+  }) : super(key: key);
+
+  final DocumentReference who;
 
   @override
   _ListPageWidgetState createState() => _ListPageWidgetState();
@@ -19,7 +25,9 @@ class ListPageWidget extends StatefulWidget {
 
 class _ListPageWidgetState extends State<ListPageWidget> {
   TextEditingController nameFieldController;
+  bool _loadingButton1 = false;
   double sliderValue;
+  bool _loadingButton2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -149,13 +157,11 @@ class _ListPageWidgetState extends State<ListPageWidget> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        AuthUserStreamWidget(
-                                          child: Text(
-                                            currentUserEmail,
-                                            style: FlutterFlowTheme.subtitle2
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
+                                        Text(
+                                          sliderValue.toString(),
+                                          style: FlutterFlowTheme.subtitle2
+                                              .override(
+                                            fontFamily: 'Poppins',
                                           ),
                                         ),
                                         Padding(
@@ -328,6 +334,7 @@ class _ListPageWidgetState extends State<ListPageWidget> {
                         ),
                         borderRadius: 8,
                       ),
+                      loading: _loadingButton1,
                     )
                   ],
                 ),
@@ -348,10 +355,6 @@ class _ListPageWidgetState extends State<ListPageWidget> {
               controller: nameFieldController,
               obscureText: false,
               decoration: InputDecoration(
-                hintText: '[Some hint text...]',
-                hintStyle: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Poppins',
-                ),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: Color(0x00000000),
@@ -407,17 +410,6 @@ class _ListPageWidgetState extends State<ListPageWidget> {
                     );
                   }
                   List<UsersRecord> listViewUsersRecordList = snapshot.data;
-                  // Customize what your widget looks like with no query results.
-                  if (snapshot.data.isEmpty) {
-                    return Material(
-                      child: Container(
-                        height: 100,
-                        child: Center(
-                          child: Text('No results.'),
-                        ),
-                      ),
-                    );
-                  }
                   return ListView.builder(
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.vertical,
@@ -431,45 +423,141 @@ class _ListPageWidgetState extends State<ListPageWidget> {
                         decoration: BoxDecoration(
                           color: Color(0xFFEEEEEE),
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                          child: Card(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            color: Color(0xFFB8AFAF),
+                            elevation: 2,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
                               children: [
-                                AuthUserStreamWidget(
-                                  child: StreamBuilder<List<UsersRecord>>(
-                                    stream: queryUsersRecord(),
-                                    builder: (context, snapshot) {
-                                      // Customize what your widget looks like when it's loading.
-                                      if (!snapshot.hasData) {
-                                        return Center(
-                                          child: SizedBox(
-                                            width: 50,
-                                            height: 50,
-                                            child: SpinKitChasingDots(
-                                              color: Color(0xFF561F51),
-                                              size: 50,
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Image.network(
+                                      listViewUsersRecord.photoUrl,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            8, 0, 8, 0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      listViewUsersRecord.email,
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                      ),
+                                                    ),
+                                                    Icon(
+                                                      Icons.favorite_border,
+                                                      color: Color(0xFFCC0F0F),
+                                                      size: 24,
+                                                    )
+                                                  ],
+                                                ),
+                                                Text(
+                                                  listViewUsersRecord.email,
+                                                  style: FlutterFlowTheme
+                                                      .bodyText1
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                  ),
+                                                ),
+                                                Icon(
+                                                  Icons.favorite_border,
+                                                  color: Color(0xFFCC0F0F),
+                                                  size: 24,
+                                                )
+                                              ],
                                             ),
-                                          ),
-                                        );
-                                      }
-                                      List<UsersRecord> textUsersRecordList =
-                                          snapshot.data;
-                                      return Text(
-                                        currentUserEmail,
-                                        style:
-                                            FlutterFlowTheme.bodyText1.override(
-                                          fontFamily: 'Poppins',
+                                            Text(
+                                              listViewUsersRecord.displayName,
+                                              style: FlutterFlowTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'Poppins',
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment:
+                                                  AlignmentDirectional(-1, 0),
+                                              child: FFButtonWidget(
+                                                onPressed: () async {
+                                                  setState(() =>
+                                                      _loadingButton2 = true);
+                                                  try {
+                                                    await Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ProfilePageWidget(
+                                                          who:
+                                                              listViewUsersRecord
+                                                                  .reference,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  } finally {
+                                                    setState(() =>
+                                                        _loadingButton2 =
+                                                            false);
+                                                  }
+                                                },
+                                                text: 'Button',
+                                                options: FFButtonOptions(
+                                                  width: 130,
+                                                  height: 28,
+                                                  color: FlutterFlowTheme
+                                                      .primaryColor,
+                                                  textStyle: FlutterFlowTheme
+                                                      .subtitle2
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    color: Colors.white,
+                                                  ),
+                                                  elevation: 1,
+                                                  borderSide: BorderSide(
+                                                    color: Colors.transparent,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius: 12,
+                                                ),
+                                                loading: _loadingButton2,
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      );
-                                    },
-                                  ),
+                                      ),
+                                    )
+                                  ],
                                 )
                               ],
-                            )
-                          ],
+                            ),
+                          ),
                         ),
                       );
                     },

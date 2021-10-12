@@ -18,6 +18,7 @@ class Login2Widget extends StatefulWidget {
 
 class _Login2WidgetState extends State<Login2Widget> {
   DateTime datePicked;
+  bool _loadingButton = false;
   TextEditingController fullNameController;
   TextEditingController profilePicController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -81,19 +82,14 @@ class _Login2WidgetState extends State<Login2Widget> {
                           }
                           List<UsersRecord> circleImageUsersRecordList =
                               snapshot.data;
-                          // Customize what your widget looks like with no query results.
+                          // Return an empty Container when the document does not exist.
                           if (snapshot.data.isEmpty) {
-                            return Material(
-                              child: Container(
-                                height: 100,
-                                child: Center(
-                                  child: Text('No results.'),
-                                ),
-                              ),
-                            );
+                            return Container();
                           }
                           final circleImageUsersRecord =
-                              circleImageUsersRecordList.first;
+                              circleImageUsersRecordList.isNotEmpty
+                                  ? circleImageUsersRecordList.first
+                                  : null;
                           return Container(
                             width: 120,
                             height: 120,
@@ -220,21 +216,27 @@ class _Login2WidgetState extends State<Login2Widget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          await DatePicker.showDatePicker(
-                            context,
-                            showTitleActions: true,
-                            onConfirm: (date) {
-                              setState(() => datePicked = date);
-                            },
-                            currentTime: DateTime.now(),
-                            minTime: DateTime.now(),
-                          );
-                          final dataCreateData = createDataRecordData(
-                            who: currentUserReference,
-                            date:
-                                dateTimeFormat('relative', getCurrentTimestamp),
-                          );
-                          await DataRecord.collection.doc().set(dataCreateData);
+                          setState(() => _loadingButton = true);
+                          try {
+                            await DatePicker.showDatePicker(
+                              context,
+                              showTitleActions: true,
+                              onConfirm: (date) {
+                                setState(() => datePicked = date);
+                              },
+                              currentTime: DateTime.now(),
+                              minTime: DateTime.now(),
+                            );
+                            final dataCreateData = createDataRecordData(
+                              who: currentUserReference,
+                              date: dateTimeFormat('relative', datePicked),
+                            );
+                            await DataRecord.collection
+                                .doc()
+                                .set(dataCreateData);
+                          } finally {
+                            setState(() => _loadingButton = false);
+                          }
                         },
                         text: 'Set date',
                         options: FFButtonOptions(
@@ -254,6 +256,7 @@ class _Login2WidgetState extends State<Login2Widget> {
                           ),
                           borderRadius: 8,
                         ),
+                        loading: _loadingButton,
                       ),
                       StreamBuilder<List<DataRecord>>(
                         stream: queryDataRecord(
@@ -274,20 +277,15 @@ class _Login2WidgetState extends State<Login2Widget> {
                             );
                           }
                           List<DataRecord> textDataRecordList = snapshot.data;
-                          // Customize what your widget looks like with no query results.
+                          // Return an empty Container when the document does not exist.
                           if (snapshot.data.isEmpty) {
-                            return Material(
-                              child: Container(
-                                height: 100,
-                                child: Center(
-                                  child: Text('No results.'),
-                                ),
-                              ),
-                            );
+                            return Container();
                           }
-                          final textDataRecord = textDataRecordList.first;
+                          final textDataRecord = textDataRecordList.isNotEmpty
+                              ? textDataRecordList.first
+                              : null;
                           return Text(
-                            'Hello World',
+                            textDataRecord.date,
                             style: FlutterFlowTheme.bodyText1.override(
                               fontFamily: 'Poppins',
                             ),

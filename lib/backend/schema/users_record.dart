@@ -49,6 +49,10 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   String get login;
 
   @nullable
+  @BuiltValueField(wireName: 'NotificationTrue')
+  bool get notificationTrue;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -62,7 +66,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..password2 = ''
     ..name = ''
     ..password = ''
-    ..login = '';
+    ..login = ''
+    ..notificationTrue = false;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('Users');
@@ -92,6 +97,7 @@ Map<String, dynamic> createUsersRecordData({
   String name,
   String password,
   String login,
+  bool notificationTrue,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
@@ -106,4 +112,5 @@ Map<String, dynamic> createUsersRecordData({
           ..password2 = password2
           ..name = name
           ..password = password
-          ..login = login));
+          ..login = login
+          ..notificationTrue = notificationTrue));

@@ -20,10 +20,13 @@ class RegisterWidget extends StatefulWidget {
 class _RegisterWidgetState extends State<RegisterWidget>
     with TickerProviderStateMixin {
   TextEditingController emailController;
+  bool _loadingButton1 = false;
+  bool _loadingButton2 = false;
   TextEditingController passwordController;
   bool passwordVisibility;
   TextEditingController password2Controller;
   bool password2Visibility;
+  bool _loadingButton3 = false;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
@@ -50,6 +53,7 @@ class _RegisterWidgetState extends State<RegisterWidget>
   @override
   void initState() {
     super.initState();
+    createAnimations(animationsMap.values, this);
     startAnimations(
       animationsMap.values
           .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
@@ -127,16 +131,22 @@ class _RegisterWidgetState extends State<RegisterWidget>
                             children: [
                               FFButtonWidget(
                                 onPressed: () async {
-                                  await Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      duration: Duration(milliseconds: 300),
-                                      reverseDuration:
-                                          Duration(milliseconds: 300),
-                                      child: NavBarPage(initialPage: 'SignUp'),
-                                    ),
-                                  );
+                                  setState(() => _loadingButton1 = true);
+                                  try {
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 300),
+                                        reverseDuration:
+                                            Duration(milliseconds: 300),
+                                        child:
+                                            NavBarPage(initialPage: 'SignUp'),
+                                      ),
+                                    );
+                                  } finally {
+                                    setState(() => _loadingButton1 = false);
+                                  }
                                 },
                                 text: 'Sign-Up',
                                 options: FFButtonOptions(
@@ -156,6 +166,7 @@ class _RegisterWidgetState extends State<RegisterWidget>
                                   ),
                                   borderRadius: 6,
                                 ),
+                                loading: _loadingButton1,
                               ).animated(
                                   [animationsMap['buttonOnPageLoadAnimation1']])
                             ],
@@ -166,16 +177,21 @@ class _RegisterWidgetState extends State<RegisterWidget>
                             children: [
                               FFButtonWidget(
                                 onPressed: () async {
-                                  await Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      duration: Duration(milliseconds: 300),
-                                      reverseDuration:
-                                          Duration(milliseconds: 300),
-                                      child: RegisterWidget(),
-                                    ),
-                                  );
+                                  setState(() => _loadingButton2 = true);
+                                  try {
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 300),
+                                        reverseDuration:
+                                            Duration(milliseconds: 300),
+                                        child: RegisterWidget(),
+                                      ),
+                                    );
+                                  } finally {
+                                    setState(() => _loadingButton2 = false);
+                                  }
                                 },
                                 text: 'Register',
                                 options: FFButtonOptions(
@@ -195,6 +211,7 @@ class _RegisterWidgetState extends State<RegisterWidget>
                                   ),
                                   borderRadius: 6,
                                 ),
+                                loading: _loadingButton2,
                               ).animated([
                                 animationsMap['buttonOnPageLoadAnimation2']
                               ]),
@@ -423,40 +440,45 @@ class _RegisterWidgetState extends State<RegisterWidget>
                                 EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                if (!formKey.currentState.validate()) {
-                                  return;
-                                }
-                                if (passwordController.text !=
-                                    password2Controller.text) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Passwords don't match!",
+                                setState(() => _loadingButton3 = true);
+                                try {
+                                  if (!formKey.currentState.validate()) {
+                                    return;
+                                  }
+                                  if (passwordController.text !=
+                                      password2Controller.text) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Passwords don't match!",
+                                        ),
                                       ),
+                                    );
+                                    return;
+                                  }
+
+                                  final user = await createAccountWithEmail(
+                                    context,
+                                    emailController.text,
+                                    passwordController.text,
+                                  );
+                                  if (user == null) {
+                                    return;
+                                  }
+
+                                  await Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.fade,
+                                      duration: Duration(milliseconds: 300),
+                                      reverseDuration:
+                                          Duration(milliseconds: 300),
+                                      child: CartWidget(),
                                     ),
                                   );
-                                  return;
+                                } finally {
+                                  setState(() => _loadingButton3 = false);
                                 }
-
-                                final user = await createAccountWithEmail(
-                                  context,
-                                  emailController.text,
-                                  passwordController.text,
-                                );
-                                if (user == null) {
-                                  return;
-                                }
-
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    duration: Duration(milliseconds: 300),
-                                    reverseDuration:
-                                        Duration(milliseconds: 300),
-                                    child: CartWidget(),
-                                  ),
-                                );
                               },
                               text: 'Зарегистрироваться',
                               options: FFButtonOptions(
@@ -475,6 +497,7 @@ class _RegisterWidgetState extends State<RegisterWidget>
                                 ),
                                 borderRadius: 8,
                               ),
+                              loading: _loadingButton3,
                             ),
                           ),
                         ),

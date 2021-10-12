@@ -20,9 +20,10 @@ class CartWidget extends StatefulWidget {
 
 class _CartWidgetState extends State<CartWidget> {
   TextEditingController nameFieldController;
-  bool switchListTileValue;
+  bool _loadingButton = false;
   double sliderValue;
   int countControllerValue;
+  bool switchListTileValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -179,19 +180,16 @@ class _CartWidgetState extends State<CartWidget> {
                                           List<UsersRecord>
                                               productImageUsersRecordList =
                                               snapshot.data;
-                                          // Customize what your widget looks like with no query results.
+                                          // Return an empty Container when the document does not exist.
                                           if (snapshot.data.isEmpty) {
-                                            return Material(
-                                              child: Container(
-                                                height: 100,
-                                                child: Center(
-                                                  child: Text('No results.'),
-                                                ),
-                                              ),
-                                            );
+                                            return Container();
                                           }
                                           final productImageUsersRecord =
-                                              productImageUsersRecordList.first;
+                                              productImageUsersRecordList
+                                                      .isNotEmpty
+                                                  ? productImageUsersRecordList
+                                                      .first
+                                                  : null;
                                           return ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(8),
@@ -435,6 +433,7 @@ class _CartWidgetState extends State<CartWidget> {
                         ),
                         borderRadius: 8,
                       ),
+                      loading: _loadingButton,
                     )
                   ],
                 ),

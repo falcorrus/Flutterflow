@@ -4,7 +4,7 @@ import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../list_page/list_page_widget.dart';
+import '../main.dart';
 import '../register/register_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -20,8 +20,12 @@ class SignUpWidget extends StatefulWidget {
 class _SignUpWidgetState extends State<SignUpWidget>
     with TickerProviderStateMixin {
   TextEditingController emailController;
+  bool _loadingButton1 = false;
+  bool _loadingButton2 = false;
   TextEditingController passwordController;
   bool passwordVisibility;
+  bool _loadingButton3 = false;
+  bool _loadingButton4 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
     'columnOnPageLoadAnimation': AnimationInfo(
@@ -52,6 +56,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
   @override
   void initState() {
     super.initState();
+    createAnimations(animationsMap.values, this);
     startAnimations(
       animationsMap.values
           .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
@@ -139,6 +144,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                       ),
                                       borderRadius: 6,
                                     ),
+                                    loading: _loadingButton1,
                                   ).animated([
                                     animationsMap['buttonOnPageLoadAnimation1']
                                   ]),
@@ -162,16 +168,22 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                 children: [
                                   FFButtonWidget(
                                     onPressed: () async {
-                                      await Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.fade,
-                                          duration: Duration(milliseconds: 300),
-                                          reverseDuration:
-                                              Duration(milliseconds: 300),
-                                          child: RegisterWidget(),
-                                        ),
-                                      );
+                                      setState(() => _loadingButton2 = true);
+                                      try {
+                                        await Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            reverseDuration:
+                                                Duration(milliseconds: 300),
+                                            child: RegisterWidget(),
+                                          ),
+                                        );
+                                      } finally {
+                                        setState(() => _loadingButton2 = false);
+                                      }
                                     },
                                     text: 'Register',
                                     options: FFButtonOptions(
@@ -191,6 +203,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                       ),
                                       borderRadius: 6,
                                     ),
+                                    loading: _loadingButton2,
                                   ).animated([
                                     animationsMap['buttonOnPageLoadAnimation2']
                                   ])
@@ -313,21 +326,27 @@ class _SignUpWidgetState extends State<SignUpWidget>
                           padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              final user = await signInWithEmail(
-                                context,
-                                emailController.text,
-                                passwordController.text,
-                              );
-                              if (user == null) {
-                                return;
-                              }
+                              setState(() => _loadingButton3 = true);
+                              try {
+                                final user = await signInWithEmail(
+                                  context,
+                                  emailController.text,
+                                  passwordController.text,
+                                );
+                                if (user == null) {
+                                  return;
+                                }
 
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ListPageWidget(),
-                                ),
-                              );
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NavBarPage(initialPage: 'ListPage'),
+                                  ),
+                                );
+                              } finally {
+                                setState(() => _loadingButton3 = false);
+                              }
                             },
                             text: 'Войти',
                             options: FFButtonOptions(
@@ -347,6 +366,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                               ),
                               borderRadius: 8,
                             ),
+                            loading: _loadingButton3,
                           ).animated(
                               [animationsMap['buttonOnPageLoadAnimation3']]),
                         ),
@@ -374,6 +394,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                               ),
                               borderRadius: 8,
                             ),
+                            loading: _loadingButton4,
                           ),
                         ),
                         Padding(
@@ -495,8 +516,8 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                         await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                ListPageWidget(),
+                                            builder: (context) => NavBarPage(
+                                                initialPage: 'ListPage'),
                                           ),
                                         );
                                       },
@@ -569,8 +590,8 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                         await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                ListPageWidget(),
+                                            builder: (context) => NavBarPage(
+                                                initialPage: 'ListPage'),
                                           ),
                                         );
                                       },

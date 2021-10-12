@@ -38,7 +38,7 @@ Future launchURL(String url) async {
 
 DateTime get getCurrentTimestamp => DateTime.now();
 
-bool get isIos => !kIsWeb && Platform.isIOS;
+bool get isAndroid => !kIsWeb && Platform.isAndroid;
 
 LatLng cachedUserLocation;
 Future<LatLng> getCurrentUserLocation(
