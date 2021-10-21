@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'auth/firebase_user_provider.dart';
 import 'auth/auth_util.dart';
-import 'backend/push_notifications/push_notifications_util.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
-import 'package:mywayeu/cart/cart_widget.dart';
+import 'package:mywayeu/couch/couch_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'sign_up/sign_up_widget.dart';
-import 'list_page/list_page_widget.dart';
 import 'login2/login2_widget.dart';
-import 'profile_page/profile_page_widget.dart';
+import 'list/list_widget.dart';
 import 'couch/couch_widget.dart';
+import 'details_page/details_page_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +32,6 @@ class _MyAppState extends State<MyApp> {
   Stream<MywayeuFirebaseUser> userStream;
   MywayeuFirebaseUser initialUser;
   final authUserSub = authenticatedUserStream.listen((_) {});
-  final fcmTokenSub = fcmTokenUserStream.listen((_) {});
 
   @override
   void initState() {
@@ -44,7 +43,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     authUserSub.cancel();
-    fcmTokenSub.cancel();
+
     super.dispose();
   }
 
@@ -73,8 +72,8 @@ class _MyAppState extends State<MyApp> {
               ),
             )
           : currentUser.loggedIn
-              ? PushNotificationsHandler(child: NavBarPage())
-              : CartWidget(),
+              ? NavBarPage()
+              : CouchWidget(),
     );
   }
 }
@@ -102,10 +101,10 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'SignUp': SignUpWidget(),
-      'ListPage': ListPageWidget(),
       'Login2': Login2Widget(),
-      'profilePage': ProfilePageWidget(),
+      'List': ListWidget(),
       'Couch': CouchWidget(),
+      'DetailsPage': DetailsPageWidget(),
     };
     return Scaffold(
       body: tabs[_currentPage],
@@ -120,14 +119,6 @@ class _NavBarPageState extends State<NavBarPage> {
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.home,
-              size: 24,
-            ),
-            label: 'Lpage',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(
               Icons.two_mp,
               size: 24,
@@ -137,10 +128,10 @@ class _NavBarPageState extends State<NavBarPage> {
           ),
           BottomNavigationBarItem(
             icon: FaIcon(
-              FontAwesomeIcons.affiliatetheme,
+              FontAwesomeIcons.home,
               size: 24,
             ),
-            label: 'PP',
+            label: 'Lpage',
             tooltip: '',
           ),
           BottomNavigationBarItem(
@@ -153,6 +144,14 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 24,
             ),
             label: 'Couch',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(
+              FontAwesomeIcons.affiliatetheme,
+              size: 24,
+            ),
+            label: 'PP',
             tooltip: '',
           )
         ],

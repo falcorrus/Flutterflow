@@ -1,10 +1,12 @@
 import '../backend/backend.dart';
+import '../details_page/details_page_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CouchWidget extends StatefulWidget {
@@ -146,7 +148,7 @@ class _CouchWidgetState extends State<CouchWidget> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 20),
+                        padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 2),
                         child: StreamBuilder<List<UsersRecord>>(
                           stream: queryUsersRecord(),
                           builder: (context, snapshot) {
@@ -197,49 +199,97 @@ class _CouchWidgetState extends State<CouchWidget> {
                                               fit: BoxFit.cover,
                                             ),
                                             Expanded(
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(4, 0, 4, 0),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .stretch,
-                                                  children: [
-                                                    Text(
-                                                      listViewUsersRecord.email,
-                                                      style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
+                                              child: Align(
+                                                alignment: AlignmentDirectional(
+                                                    0.8, 0),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(4, 0, 4, 0),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .stretch,
+                                                    children: [
+                                                      Text(
+                                                        listViewUsersRecord
+                                                            .email,
+                                                        style: FlutterFlowTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily: 'Poppins',
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      listViewUsersRecord
-                                                          .createdTime
-                                                          .toString(),
-                                                      style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
+                                                      Text(
+                                                        listViewUsersRecord
+                                                            .displayName,
+                                                        style: FlutterFlowTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily: 'Poppins',
+                                                        ),
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(4, 0, 4, 0),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [],
+                                                      Text(
+                                                        listViewUsersRecord
+                                                            .phoneNumber,
+                                                        style: FlutterFlowTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily: 'Poppins',
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(0, 0,
+                                                                    120, 0),
+                                                        child: FFButtonWidget(
+                                                          onPressed: () async {
+                                                            await Navigator
+                                                                .push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        DetailsPageWidget(
+                                                                  candidate:
+                                                                      listViewUsersRecord
+                                                                          .reference,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                          text: 'детали',
+                                                          icon: FaIcon(
+                                                            FontAwesomeIcons
+                                                                .alignJustify,
+                                                          ),
+                                                          options:
+                                                              FFButtonOptions(
+                                                            width: 80,
+                                                            height: 40,
+                                                            color:
+                                                                FlutterFlowTheme
+                                                                    .primaryColor,
+                                                            textStyle:
+                                                                TextStyle(),
+                                                            elevation: 1,
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              width: 1,
+                                                            ),
+                                                            borderRadius: 12,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             )
@@ -272,7 +322,7 @@ class _CouchWidgetState extends State<CouchWidget> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            NavBarPage(initialPage: 'profilePage'),
+                            NavBarPage(initialPage: 'DetailsPage'),
                       ),
                       (r) => false,
                     );

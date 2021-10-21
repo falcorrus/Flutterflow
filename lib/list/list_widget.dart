@@ -1,18 +1,18 @@
 import '../backend/backend.dart';
+import '../details_page/details_page_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
-import '../profile_page/profile_page_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ListPageWidget extends StatefulWidget {
-  ListPageWidget({
+class ListWidget extends StatefulWidget {
+  ListWidget({
     Key key,
     this.who,
   }) : super(key: key);
@@ -20,10 +20,10 @@ class ListPageWidget extends StatefulWidget {
   final DocumentReference who;
 
   @override
-  _ListPageWidgetState createState() => _ListPageWidgetState();
+  _ListWidgetState createState() => _ListWidgetState();
 }
 
-class _ListPageWidgetState extends State<ListPageWidget> {
+class _ListWidgetState extends State<ListWidget> {
   TextEditingController nameFieldController;
   bool _loadingButton1 = false;
   double sliderValue;
@@ -92,6 +92,16 @@ class _ListPageWidgetState extends State<ListPageWidget> {
                   )
                 ],
               ),
+            ),
+            Slider(
+              activeColor: FlutterFlowTheme.primaryColor,
+              inactiveColor: Color(0xFF9E9E9E),
+              min: 0,
+              max: 10,
+              value: sliderValue ??= 0,
+              onChanged: (newValue) {
+                setState(() => sliderValue = newValue);
+              },
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(1, 0, 0, 0),
@@ -340,16 +350,6 @@ class _ListPageWidgetState extends State<ListPageWidget> {
                 ),
               ),
             ),
-            Slider(
-              activeColor: FlutterFlowTheme.primaryColor,
-              inactiveColor: Color(0xFF9E9E9E),
-              min: 0,
-              max: 10,
-              value: sliderValue ??= 0,
-              onChanged: (newValue) {
-                setState(() => sliderValue = newValue);
-              },
-            ),
             TextFormField(
               onChanged: (_) => setState(() {}),
               controller: nameFieldController,
@@ -466,7 +466,11 @@ class _ListPageWidgetState extends State<ListPageWidget> {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      listViewUsersRecord.email,
+                                                      valueOrDefault<String>(
+                                                        listViewUsersRecord
+                                                            .email,
+                                                        'no email',
+                                                      ),
                                                       style: FlutterFlowTheme
                                                           .bodyText1
                                                           .override(
@@ -479,14 +483,6 @@ class _ListPageWidgetState extends State<ListPageWidget> {
                                                       size: 24,
                                                     )
                                                   ],
-                                                ),
-                                                Text(
-                                                  listViewUsersRecord.email,
-                                                  style: FlutterFlowTheme
-                                                      .bodyText1
-                                                      .override(
-                                                    fontFamily: 'Poppins',
-                                                  ),
                                                 ),
                                                 Icon(
                                                   Icons.favorite_border,
@@ -514,8 +510,8 @@ class _ListPageWidgetState extends State<ListPageWidget> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            ProfilePageWidget(
-                                                          who:
+                                                            DetailsPageWidget(
+                                                          candidate:
                                                               listViewUsersRecord
                                                                   .reference,
                                                         ),

@@ -27,7 +27,7 @@ class _Login2WidgetState extends State<Login2Widget> {
   void initState() {
     super.initState();
     fullNameController = TextEditingController();
-    profilePicController = TextEditingController();
+    profilePicController = TextEditingController(text: 'no date');
   }
 
   @override
@@ -224,8 +224,8 @@ class _Login2WidgetState extends State<Login2Widget> {
                               onConfirm: (date) {
                                 setState(() => datePicked = date);
                               },
-                              currentTime: DateTime.now(),
-                              minTime: DateTime.now(),
+                              currentTime: getCurrentTimestamp,
+                              minTime: getCurrentTimestamp,
                             );
                             final dataCreateData = createDataRecordData(
                               who: currentUserReference,
@@ -285,9 +285,10 @@ class _Login2WidgetState extends State<Login2Widget> {
                               ? textDataRecordList.first
                               : null;
                           return Text(
-                            textDataRecord.date,
-                            style: FlutterFlowTheme.bodyText1.override(
+                            dateTimeFormat('Md', datePicked),
+                            style: FlutterFlowTheme.title3.override(
                               fontFamily: 'Poppins',
+                              color: Color(0xFFB62B2B),
                             ),
                           );
                         },

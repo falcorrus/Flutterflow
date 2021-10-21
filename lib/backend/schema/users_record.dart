@@ -10,10 +10,6 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   static Serializer<UsersRecord> get serializer => _$usersRecordSerializer;
 
   @nullable
-  @BuiltValueField(wireName: 'Phone')
-  BuiltList<int> get phone;
-
-  @nullable
   String get email;
 
   @nullable
@@ -57,7 +53,6 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   DocumentReference get reference;
 
   static void _initializeBuilder(UsersRecordBuilder builder) => builder
-    ..phone = ListBuilder()
     ..email = ''
     ..displayName = ''
     ..photoUrl = ''
@@ -75,6 +70,38 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   static Stream<UsersRecord> getDocument(DocumentReference ref) => ref
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
+  static UsersRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) => UsersRecord(
+        (c) => c
+          ..email = snapshot.data['email']
+          ..displayName = snapshot.data['display_name']
+          ..photoUrl = snapshot.data['photo_url']
+          ..uid = snapshot.data['uid']
+          ..createdTime = safeGet(() => DateTime.fromMillisecondsSinceEpoch(
+              snapshot.data['created_time']))
+          ..phoneNumber = snapshot.data['phone_number']
+          ..password2 = snapshot.data['password2']
+          ..name = snapshot.data['name']
+          ..password = snapshot.data['password']
+          ..login = snapshot.data['Login']
+          ..notificationTrue = snapshot.data['NotificationTrue']
+          ..reference = UsersRecord.collection.doc(snapshot.objectID),
+      );
+
+  static Future<List<UsersRecord>> search(
+          {String term,
+          FutureOr<LatLng> location,
+          int maxResults,
+          double searchRadiusMeters}) =>
+      FFAlgoliaManager.instance
+          .algoliaQuery(
+            index: 'Users',
+            term: term,
+            maxResults: maxResults,
+            location: location,
+            searchRadiusMeters: searchRadiusMeters,
+          )
+          .then((r) => r.map(fromAlgolia).toList());
 
   UsersRecord._();
   factory UsersRecord([void Function(UsersRecordBuilder) updates]) =
@@ -102,7 +129,6 @@ Map<String, dynamic> createUsersRecordData({
     serializers.toFirestore(
         UsersRecord.serializer,
         UsersRecord((u) => u
-          ..phone = null
           ..email = email
           ..displayName = displayName
           ..photoUrl = photoUrl

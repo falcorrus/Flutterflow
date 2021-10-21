@@ -53,8 +53,7 @@ class _RegisterWidgetState extends State<RegisterWidget>
   @override
   void initState() {
     super.initState();
-    createAnimations(animationsMap.values, this);
-    startAnimations(
+    startPageLoadAnimations(
       animationsMap.values
           .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
       this,

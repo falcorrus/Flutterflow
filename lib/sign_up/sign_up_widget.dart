@@ -56,8 +56,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
   @override
   void initState() {
     super.initState();
-    createAnimations(animationsMap.values, this);
-    startAnimations(
+    startPageLoadAnimations(
       animationsMap.values
           .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
       this,
@@ -341,7 +340,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        NavBarPage(initialPage: 'ListPage'),
+                                        NavBarPage(initialPage: 'List'),
                                   ),
                                 );
                               } finally {
@@ -516,8 +515,8 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                         await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => NavBarPage(
-                                                initialPage: 'ListPage'),
+                                            builder: (context) =>
+                                                NavBarPage(initialPage: 'List'),
                                           ),
                                         );
                                       },
@@ -590,8 +589,8 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                         await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => NavBarPage(
-                                                initialPage: 'ListPage'),
+                                            builder: (context) =>
+                                                NavBarPage(initialPage: 'List'),
                                           ),
                                         );
                                       },
