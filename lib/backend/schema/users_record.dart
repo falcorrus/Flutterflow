@@ -32,21 +32,17 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   String get phoneNumber;
 
   @nullable
-  String get password2;
-
-  @nullable
-  String get name;
-
-  @nullable
   String get password;
 
   @nullable
-  @BuiltValueField(wireName: 'Login')
-  String get login;
+  String get userRole;
 
   @nullable
-  @BuiltValueField(wireName: 'NotificationTrue')
-  bool get notificationTrue;
+  @BuiltValueField(wireName: 'ab_endDate')
+  DateTime get abEndDate;
+
+  @nullable
+  int get classes;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -58,50 +54,20 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..photoUrl = ''
     ..uid = ''
     ..phoneNumber = ''
-    ..password2 = ''
-    ..name = ''
     ..password = ''
-    ..login = ''
-    ..notificationTrue = false;
+    ..userRole = ''
+    ..classes = 0;
 
   static CollectionReference get collection =>
-      FirebaseFirestore.instance.collection('Users');
+      FirebaseFirestore.instance.collection('users');
 
   static Stream<UsersRecord> getDocument(DocumentReference ref) => ref
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
-  static UsersRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) => UsersRecord(
-        (c) => c
-          ..email = snapshot.data['email']
-          ..displayName = snapshot.data['display_name']
-          ..photoUrl = snapshot.data['photo_url']
-          ..uid = snapshot.data['uid']
-          ..createdTime = safeGet(() => DateTime.fromMillisecondsSinceEpoch(
-              snapshot.data['created_time']))
-          ..phoneNumber = snapshot.data['phone_number']
-          ..password2 = snapshot.data['password2']
-          ..name = snapshot.data['name']
-          ..password = snapshot.data['password']
-          ..login = snapshot.data['Login']
-          ..notificationTrue = snapshot.data['NotificationTrue']
-          ..reference = UsersRecord.collection.doc(snapshot.objectID),
-      );
-
-  static Future<List<UsersRecord>> search(
-          {String term,
-          FutureOr<LatLng> location,
-          int maxResults,
-          double searchRadiusMeters}) =>
-      FFAlgoliaManager.instance
-          .algoliaQuery(
-            index: 'Users',
-            term: term,
-            maxResults: maxResults,
-            location: location,
-            searchRadiusMeters: searchRadiusMeters,
-          )
-          .then((r) => r.map(fromAlgolia).toList());
+  static Future<UsersRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
   UsersRecord._();
   factory UsersRecord([void Function(UsersRecordBuilder) updates]) =
@@ -120,11 +86,10 @@ Map<String, dynamic> createUsersRecordData({
   String uid,
   DateTime createdTime,
   String phoneNumber,
-  String password2,
-  String name,
   String password,
-  String login,
-  bool notificationTrue,
+  String userRole,
+  DateTime abEndDate,
+  int classes,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
@@ -135,8 +100,7 @@ Map<String, dynamic> createUsersRecordData({
           ..uid = uid
           ..createdTime = createdTime
           ..phoneNumber = phoneNumber
-          ..password2 = password2
-          ..name = name
           ..password = password
-          ..login = login
-          ..notificationTrue = notificationTrue));
+          ..userRole = userRole
+          ..abEndDate = abEndDate
+          ..classes = classes));

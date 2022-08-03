@@ -5,39 +5,50 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'auth/firebase_user_provider.dart';
 import 'auth/auth_util.dart';
 
-import '../flutter_flow/flutter_flow_theme.dart';
-import 'package:mywayeu/couch/couch_widget.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
+import 'flutter_flow/flutter_flow_util.dart';
+import 'flutter_flow/internationalization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'sign_up/sign_up_widget.dart';
-import 'login2/login2_widget.dart';
-import 'list/list_widget.dart';
-import 'couch/couch_widget.dart';
-import 'details_page/details_page_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'index.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  FFAppState(); // Initialize FFAppState
+
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
+
+  static _MyAppState of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
-  Stream<MywayeuFirebaseUser> userStream;
-  MywayeuFirebaseUser initialUser;
+  Locale _locale;
+  ThemeMode _themeMode = ThemeMode.system;
+
+  Stream<SClubFirebaseUser> userStream;
+  SClubFirebaseUser initialUser;
+  bool displaySplashImage = true;
+
   final authUserSub = authenticatedUserStream.listen((_) {});
 
   @override
   void initState() {
     super.initState();
-    userStream = mywayeuFirebaseUserStream()
+    userStream = sClubFirebaseUserStream()
       ..listen((user) => initialUser ?? setState(() => initialUser = user));
+    Future.delayed(
+      Duration(seconds: 1),
+      () => setState(() => displaySplashImage = false),
+    );
   }
 
   @override
@@ -47,33 +58,40 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
+  void setLocale(Locale value) => setState(() => _locale = value);
+  void setThemeMode(ThemeMode mode) => setState(() {
+        _themeMode = mode;
+      });
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'mywayeu',
+      title: 'sClub',
       localizationsDelegates: [
+        FFLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('en', '')],
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: initialUser == null
+      locale: _locale,
+      supportedLocales: const [
+        Locale('en', ''),
+      ],
+      theme: ThemeData(brightness: Brightness.light),
+      themeMode: _themeMode,
+      home: initialUser == null || displaySplashImage
           ? Container(
               color: Colors.transparent,
-              child: Center(
-                child: Builder(
-                  builder: (context) => Image.asset(
-                    'assets/images/myway_eu2-01.png',
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    fit: BoxFit.fitWidth,
-                  ),
+              child: Builder(
+                builder: (context) => Image.asset(
+                  'assets/images/white_logo.jpg',
+                  fit: BoxFit.cover,
                 ),
               ),
             )
           : currentUser.loggedIn
               ? NavBarPage()
-              : CouchWidget(),
+              : LoginWidget(),
     );
   }
 }
@@ -89,7 +107,7 @@ class NavBarPage extends StatefulWidget {
 
 /// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPage = 'SignUp';
+  String _currentPage = 'Clients';
 
   @override
   void initState() {
@@ -100,16 +118,25 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'SignUp': SignUpWidget(),
-      'Login2': Login2Widget(),
-      'List': ListWidget(),
-      'Couch': CouchWidget(),
-      'DetailsPage': DetailsPageWidget(),
+      'Login': LoginWidget(),
+      'Clients': ClientsWidget(),
+      'tracks': TracksWidget(),
+      'Profile-LK': ProfileLKWidget(),
+      'NewOnlineTrack': NewOnlineTrackWidget(),
     };
+    final currentIndex = tabs.keys.toList().indexOf(_currentPage);
     return Scaffold(
       body: tabs[_currentPage],
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        currentIndex: currentIndex,
+        onTap: (i) => setState(() => _currentPage = tabs.keys.toList()[i]),
+        backgroundColor: FlutterFlowTheme.of(context).dark900,
+        selectedItemColor: Color(0xFF4B39EF),
+        unselectedItemColor: Color(0x98939393),
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home_outlined,
@@ -120,49 +147,53 @@ class _NavBarPageState extends State<NavBarPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.two_mp,
+              Icons.home_outlined,
               size: 24,
             ),
-            label: 'L2',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.home,
+            activeIcon: Icon(
+              Icons.home,
               size: 24,
             ),
-            label: 'Lpage',
+            label: 'Тренер',
             tooltip: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.threesixty_sharp,
+              Icons.shopping_basket_outlined,
               size: 24,
             ),
             activeIcon: Icon(
-              Icons.shopping_basket_sharp,
+              Icons.library_books_rounded,
               size: 24,
             ),
-            label: 'Couch',
+            label: 'История записей',
             tooltip: '',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.affiliatetheme,
+            icon: Icon(
+              Icons.account_circle_outlined,
               size: 24,
             ),
-            label: 'PP',
+            activeIcon: Icon(
+              Icons.account_circle_rounded,
+              size: 24,
+            ),
+            label: 'ЛК',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.account_circle_outlined,
+              size: 24,
+            ),
+            activeIcon: Icon(
+              Icons.account_circle_rounded,
+              size: 24,
+            ),
+            label: 'ЛК',
             tooltip: '',
           )
         ],
-        backgroundColor: Colors.white,
-        currentIndex: tabs.keys.toList().indexOf(_currentPage),
-        selectedItemColor: Color(0xFF561F51),
-        unselectedItemColor: Color(0x8A000000),
-        onTap: (i) => setState(() => _currentPage = tabs.keys.toList()[i]),
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
       ),
     );
   }

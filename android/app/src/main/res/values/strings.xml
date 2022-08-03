@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-    <string name="app_name">mywayeu</string>
-    <string name="facebook_app_id">959790788205047</string>
-               <string name="fb_login_protocol_scheme">fb959790788205047</string>
+    <string name="app_name">sClub</string>
+
 </resources>
