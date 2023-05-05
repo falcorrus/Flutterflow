@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = sClub
+PRODUCT_NAME = Happy-test
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = Kaleo.Sclub.app
+PRODUCT_BUNDLE_IDENTIFIER = com.mycompany.happydelivery
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2022 sClub. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2022 Happy-test. All rights reserved.

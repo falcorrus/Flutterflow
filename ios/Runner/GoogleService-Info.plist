@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>10549277402-uk5v3vbqgqqohq59a73vkq1jn7m9glnh.apps.googleusercontent.com</string>
+	<string>875446636613-d5li3bvruou3luknjd3mng07bp8tnmho.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.10549277402-uk5v3vbqgqqohq59a73vkq1jn7m9glnh</string>
+	<string>com.googleusercontent.apps.875446636613-d5li3bvruou3luknjd3mng07bp8tnmho</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>10549277402-3r1dkpg1iiveeir7b98sombcf50nbiq8.apps.googleusercontent.com</string>
+	<string>875446636613-c58rcgbrq299117n0pt90s2n21stmle6.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBFzUfrCMlhz3rOIMZCQwee8SVkPYicfUQ</string>
+	<string>AIzaSyB9VnuAVHRR4s5WcPM5lpra4C3g_hNElsU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>10549277402</string>
+	<string>875446636613</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>Kaleo.Sclub.app</string>
+	<string>com.mycompany.happydelivery</string>
 	<key>PROJECT_ID</key>
-	<string>sclub-abcd</string>
+	<string>happydelivery-44ca6</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sclub-abcd.appspot.com</string>
+	<string>happydelivery-44ca6.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:10549277402:ios:8f2561832bcfd8d8dfebe3</string>
+	<string>1:875446636613:ios:40cf1801ea8e64be90932c</string>
 </dict>
 </plist>

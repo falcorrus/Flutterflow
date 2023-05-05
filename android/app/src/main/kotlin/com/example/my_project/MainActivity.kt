@@ -1,4 +1,4 @@
-package Kaleo.Sclub.app
+package com.mycompany.happydelivery
 
 import io.flutter.embedding.android.FlutterActivity
 

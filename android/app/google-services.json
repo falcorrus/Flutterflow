@@ -1,56 +1,48 @@
 {
   "project_info": {
-    "project_number": "10549277402",
-    "project_id": "sclub-abcd",
-    "storage_bucket": "sclub-abcd.appspot.com"
+    "project_number": "875446636613",
+    "project_id": "happydelivery-44ca6",
+    "storage_bucket": "happydelivery-44ca6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:10549277402:android:ac1716ce33100d60dfebe3",
+        "mobilesdk_app_id": "1:875446636613:android:4da5959ab673ed0890932c",
         "android_client_info": {
-          "package_name": "Kaleo.Sclub.app"
+          "package_name": "com.mycompany.happydelivery"
         }
       },
       "oauth_client": [
         {
-          "client_id": "10549277402-3r1dkpg1iiveeir7b98sombcf50nbiq8.apps.googleusercontent.com",
+          "client_id": "875446636613-c58rcgbrq299117n0pt90s2n21stmle6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "Kaleo.Sclub.app",
-            "certificate_hash": "ef9eff3ea717aa18eae59c32b64c29772f95e711"
-          }
-        },
-        {
-          "client_id": "10549277402-usu6si6a31hdocielflr6bknanidpf18.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "Kaleo.Sclub.app",
+            "package_name": "com.mycompany.happydelivery",
             "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
           }
         },
         {
-          "client_id": "10549277402-lu3i79sus61aks585pgu6bt4ju1d56mj.apps.googleusercontent.com",
+          "client_id": "875446636613-br2cdqup5c94hvid08i9somdq3u141s2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCG1Z3Ut8udT6W6rqe3i5t-oih8ynHe6-w"
+          "current_key": "AIzaSyDJH9SPmJJhBHRnAWtryHUAWf38K5EneaI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "10549277402-lu3i79sus61aks585pgu6bt4ju1d56mj.apps.googleusercontent.com",
+              "client_id": "875446636613-br2cdqup5c94hvid08i9somdq3u141s2.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "10549277402-sp6op1c28bjnraveia0dlfr6lk9jqko0.apps.googleusercontent.com",
+              "client_id": "875446636613-d5li3bvruou3luknjd3mng07bp8tnmho.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "kaleo.sclub.app"
+                "bundle_id": "com.mycompany.happydelivery"
               }
             }
           ]
